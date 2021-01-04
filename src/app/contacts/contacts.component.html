@@ -1,0 +1,28 @@
+<div class="contact">
+  <h1 class="title">Contact</h1>
+
+  <div class="contact__info">
+    <dl>
+      <dt>Location:</dt>
+      <dd>San Francisco, some street, 23</dd>
+    </dl>
+
+    <dl>
+      <dt>Phone:</dt>
+      <dd>+300 000 000 000</dd>
+    </dl>
+  </div>
+
+  <div class="map">
+    <agm-map
+      [latitude]="51"
+      [longitude]="8"
+      [zoom]="8"
+      [disableDefaultUI]="false"
+      [zoomControl]="false"
+      [style.width.%]="100"
+      [style.height.px]="300"
+    ></agm-map>
+  </div>
+
+</div>
