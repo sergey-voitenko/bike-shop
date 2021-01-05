@@ -7,13 +7,19 @@ import { MainComponent } from './main/main.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ProductComponent } from './main/product/product.component';
+import { CharLimitationPipe } from './main/char-limitation.pipe';
+import { ProductSmallComponent } from './main/product-small/product-small.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     ContactsComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    ProductComponent,
+    CharLimitationPipe,
+    ProductSmallComponent
   ],
   imports: [
     BrowserModule,
