@@ -19,8 +19,7 @@ export const data = [
         text: 'Good one, but I have some problem with wheels',
         rating: 4
       }
-    ],
-    condition: 'new'
+    ]
   },
   {
     id: 2,
@@ -42,8 +41,7 @@ export const data = [
         text: 'Good one, but I have some problem with wheels',
         rating: 3
       }
-    ],
-    condition: 'new'
+    ]
   },
   {
     id: 3,
@@ -70,8 +68,7 @@ export const data = [
         text: 'Good one, but I have some problem with wheels',
         rating: 3
       }
-    ],
-    condition: 'new'
+    ]
   },
   {
     id: 4,
@@ -87,8 +84,7 @@ export const data = [
     new: false,
     color: ['Blue', 'Orange'],
     size: ['L', 'XL'],
-    review: [],
-    condition: 'new'
+    review: []
   },
   {
     id: 5,
@@ -110,8 +106,7 @@ export const data = [
         text: 'Awesome bike!!!',
         rating: 5
       },
-    ],
-    condition: 'new'
+    ]
   },
   {
     id: 6,
@@ -143,8 +138,7 @@ export const data = [
         text: 'Good one, but I have some problem with wheels',
         rating: 3
       }
-    ],
-    condition: 'new'
+    ]
   },
   {
     id: 7,
@@ -171,8 +165,7 @@ export const data = [
         text: 'Good one, but I have some problem with wheels',
         rating: 3
       }
-    ],
-    condition: 'new'
+    ]
   },
   {
     id: 8,
@@ -194,8 +187,7 @@ export const data = [
         text: 'Good one, but I have some problem with wheels',
         rating: 3
       }
-    ],
-    condition: 'new'
+    ]
   },
   {
     id: 9,
@@ -222,7 +214,6 @@ export const data = [
         text: 'Good one, but I have some problem with wheels',
         rating: 3
       }
-    ],
-    condition: 'new'
+    ]
   }
 ];

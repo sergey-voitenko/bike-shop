@@ -17,7 +17,6 @@ export interface Bike {
   color: string[];
   size: string[];
   review: {}[];
-  condition: string;
 }
 
 @Component({
@@ -49,7 +48,6 @@ export class MainComponent implements OnInit {
         color: dataItem.color,
         size: dataItem.size,
         review: dataItem.review,
-        condition: dataItem.condition,
       }
       this.bikesStoreService.addBike(newBike);
     }

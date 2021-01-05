@@ -32,7 +32,7 @@
   <div class="cards__item-row">
     <div class="cards__item-line">
       <div class="cards__item-info" *ngIf="bike.shipping">{{ bike.shipping }}</div>
-      <div class="cards__item-info">{{ bike.condition | titlecase }}</div>
+      <div class="cards__item-info">{{ bike.new ? 'New': 'Used' }}</div>
       <div class="cards__item-info">{{ bike.discountUntil | date }}</div>
     </div>
   </div>
