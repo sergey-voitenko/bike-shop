@@ -1,4 +1,6 @@
-export const data = [
+import { Bike } from '../app/interfaces/bike.interface';
+
+export const BIKES: Bike[] = [
   {
     id: 1,
     imgUrl: 'https://cyclingmagazine.ca/wp-content/uploads/2018/10/Krypton_A18_2016_red_ultegra_16_1.jpg',

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Bike } from '../main.component';
+import { Bike } from '../../interfaces/bike.interface';
+
 
 @Component({
   selector: 'app-product',
