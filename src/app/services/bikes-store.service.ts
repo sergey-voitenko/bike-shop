@@ -7,7 +7,7 @@ import { Bike } from '../interfaces/bike.interface';
   providedIn: 'root'
 })
 export class BikesStoreService {
-  getBikes(): Observable<Bike[]> {
+  getBikes(): Observable<Bike[] | null> {
     return of(BIKES);
   }
 }

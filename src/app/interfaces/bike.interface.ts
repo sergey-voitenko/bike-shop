@@ -12,5 +12,9 @@ export interface Bike {
   new: boolean;
   color: string[];
   size: string[];
-  review: {}[];
+  review: {
+    author: string,
+    text: string,
+    rating: number
+  }[];
 }

@@ -2,7 +2,7 @@
   <div class="cards__sides">
     <app-product
       class="cards__item"
-      *ngFor="let bike of bikes | sortByDiscount"
+      *ngFor="let bike of bikes$ | async | sortByDiscount"
       [bike]="bike"
       [class.discount-70]="bike.discount >= 70"
       [class.discount-60]="bike.discount < 70 && bike.discount >= 60"
