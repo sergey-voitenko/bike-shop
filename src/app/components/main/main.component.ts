@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit{
-  bikes$!: Observable<Bike[] | null>;
+  bikes$!: Observable<Bike[]>;
 
   constructor(private bikesStoreService: BikesStoreService) { }
 
