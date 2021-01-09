@@ -3,17 +3,23 @@ import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
-import { MainComponent } from './main/main.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { NotfoundComponent } from './notfound/notfound.component';
+import { MainComponent } from './components/main/main.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ProductComponent } from './components/product/product.component';
+import { CharLimitationPipe } from './pipes/char-limitation.pipe';
+import { SortByDiscountPipe } from './pipes/sort-by-discount.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     ContactsComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    ProductComponent,
+    CharLimitationPipe,
+    SortByDiscountPipe
   ],
   imports: [
     BrowserModule,
