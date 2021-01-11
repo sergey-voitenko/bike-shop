@@ -1,28 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {Bike} from "../../interfaces/bike.interface";
-import {ActivatedRoute, Params} from "@angular/router";
-import {BikesStoreService} from "../../services/bikes-store.service";
+import { Component } from '@angular/core';
+import {ProductComponent} from "../product/product.component";
 
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.scss']
 })
-export class ReviewsComponent implements OnInit {
-  bike!: Bike;
+export class ReviewsComponent extends ProductComponent {
 
-  constructor(
-    private route: ActivatedRoute,
-    private bikeStoreService: BikesStoreService
-  ) {}
-
-  ngOnInit(): void {
-    this.initBikeByParam();
-  }
-
-  initBikeByParam(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.bike = this.bikeStoreService.getBikeById(+params.id);
-    }).unsubscribe();
-  }
 }
