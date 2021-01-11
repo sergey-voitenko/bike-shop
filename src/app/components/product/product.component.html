@@ -1,90 +1,100 @@
-<!--<div class="cards__item-top">-->
-<!--  <div class="cards__item-image">-->
-<!--    <div class="cards__item-label"><span><span>{{ bike.discount }}</span> % <br> off</span></div>-->
-<!--    <img src="{{ bike.imgUrl }}" alt="">-->
-<!--  </div>-->
-<!--</div>-->
+<div class="product">
+  <div class="product__sides">
+    <div class="product__side">
+      <div class="product__photo">
+        <img src="{{bike.imgUrl}}" alt="">
+      </div>
+    </div>
 
-<!--<div class="cards__item-bottom">-->
-<!--  <div class="cards__item-row cards__item-row&#45;&#45;pb5 cards__item-row&#45;&#45;mb15">-->
-<!--    <div class="cards__item-line">-->
-<!--      <div class="cards__item-part cards__item-part&#45;&#45;flex cards__item-part&#45;&#45;aife">-->
-<!--        <div class="cards__item-price cards__item-price&#45;&#45;new">-->
-<!--          {{ bike.price - (bike.discount * bike.price / 100) | currency : 'EUR' }}-->
-<!--        </div>-->
-<!--        <div class="cards__item-price cards__item-price&#45;&#45;old">-->
-<!--          {{ bike.price | currency:'EUR' }}-->
-<!--        </div>-->
-<!--      </div>-->
+    <div class="product__side">
+      <div class="product__title">{{bike.name}}</div>
 
-<!--      <div class="cards__item-part">-->
-<!--        <div class="cards__item-shop">{{ bike.shop }}</div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
+      <div
+        class="product__description"
+        *ngIf="!descriptionToggle; else descriptionFull"
+      >
+        <span>{{bike.description | charLimitation: 150}}</span><span class="product__description-button"
+        (click)="descriptionToggle = true"> (Read More)</span>
+      </div>
 
-<!--  <div class="cards__item-row cards__item-row&#45;&#45;pb15 cards__item-row&#45;&#45;mb10">-->
-<!--    <div class="cards__item-text">-->
-<!--      {{ bike.description | charLimitation: 35 }}-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <div class="cards__item-row">-->
-<!--    <div class="cards__item-line">-->
-<!--      <div class="cards__item-info" *ngIf="bike.shipping">{{ bike.shipping }}</div>-->
-<!--      <div class="cards__item-info">{{ bike.new ? 'New': 'Used' }}</div>-->
-<!--      <div class="cards__item-info">{{ bike.discountUntil | date }}</div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<div class="cards__item-top cards__item-line">
-  <div class="cards__item-label"><span><span>{{ bike.discount }}</span> % <br> off</span></div>
-
-  <div
-    *ngIf="!bike.main"
-    class="cards__item-text"
-  >
-    {{ bike.description | charLimitation: 35 }}
-  </div>
-
-  <div class="cards__item-image">
-    <img src="{{ bike.imgUrl }}" alt="">
-  </div>
-</div>
-
-<div class="cards__item-bottom">
-  <div class="cards__item-row cards__item-row--mb10 cards__item-row--pb10">
-    <div class="cards__item-line">
-      <div class="cards__item-part cards__item-part--flex cards__item-part--aife">
-        <div class="cards__item-price cards__item-price--new">
-          {{ bike.price - (bike.discount * bike.price / 100) | currency : 'EUR' }}
+      <ng-template #descriptionFull>
+        <div class="product__description">
+          <span>{{bike.description}}</span><span class="product__description-button"
+          (click)="descriptionToggle = false"> (Collapse)</span>
         </div>
-        <div class="cards__item-price cards__item-price--old">
-          {{ bike.price | currency:'EUR' }}
+      </ng-template>
+
+      <div class="product__price">{{bike.price | currency: 'USD'}}</div>
+
+      <div class="rating">
+        <div class="rating-side">
+          <div class="rating-stars">
+            <div [class.active]="averageOfRating >= 1" class="rating-star"></div>
+            <div [class.active]="averageOfRating >= 2" class="rating-star"></div>
+            <div [class.active]="averageOfRating >= 3" class="rating-star"></div>
+            <div [class.active]="averageOfRating >= 4" class="rating-star"></div>
+            <div [class.active]="averageOfRating === 5" class="rating-star"></div>
+          </div>
+        </div>
+
+        <div class="rating-side">
+          <div class="rating-count">({{bike.review.length}})</div>
         </div>
       </div>
 
-      <div class="cards__item-part">
-        <div class="cards__item-shop">{{ bike.shop }}</div>
+      <div class="product__reviews">
+        <div
+          class="product__reviews-text"
+          *ngIf="bike.review.length"
+          [routerLink]="['/reviews', bike.id]"
+        >
+          Read {{bike.review.length}} {{bike.review.length > 1 ? 'Reviews' : 'Review'}}
+        </div>
+
+        <div class="product__reviews-text">Write a Review</div>
       </div>
-    </div>
-  </div>
 
-  <div
-    *ngIf="bike.main"
-    class="cards__item-row cards__item-row--pb15 cards__item-row--mb10"
-  >
-    <div class="cards__item-text">
-      {{ bike.description | charLimitation: 35 }}
-    </div>
-  </div>
+      <form [formGroup]="form">
+        <div class="product__select">
+          <div class="product__label product__label--mb5">Color</div>
 
-  <div class="cards__item-row">
-    <div class="cards__item-line">
-            <div class="cards__item-info" *ngIf="bike.shipping">{{ bike.shipping }}</div>
-            <div class="cards__item-info">{{ bike.new ? 'New': 'Used' }}</div>
-            <div class="cards__item-info">{{ bike.discountUntil | date }}</div>
+          <select formControlName="color">
+            <option value="default">Select Color</option>
+            <option *ngFor="let color of bike.color" value="{{color}}">{{color}}</option>
+          </select>
+        </div>
+
+        <div class="product__select">
+          <div class="product__label product__label--mb5">Size</div>
+
+          <select formControlName="size">
+            <option value="default">Select Size</option>
+            <option *ngFor="let size of bike.size" value="{{size}}">{{size}}</option>
+          </select>
+        </div>
+
+        <div class="product__availability">
+          <span class="product__label">Availability: </span>Please, select options
+        </div>
+
+        <div class="product__input">
+          <div class="product__label product__label--mb5">Quantity</div>
+
+          <input type="number" value="1">
+        </div>
+
+        <div class="product__button product__button--cart">
+          <button type="submit">
+            <fa-icon [icon]="faShoppingCart"></fa-icon> Add to card
+          </button>
+        </div>
+
+        <div class="product__button product__button--wish">
+          <button type="button">
+            <fa-icon [icon]="faMagic"></fa-icon> Add to Wish List
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

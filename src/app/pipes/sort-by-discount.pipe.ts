@@ -7,16 +7,18 @@ import { Bike } from '../interfaces/bike.interface';
 export class SortByDiscountPipe implements PipeTransform {
 
   transform(bikes: Bike[] | null): Bike[] | null {
-    for (let i = 0; i < bikes!.length - 1; i++) {
-      const currentBikeDiscount = bikes![i].discount;
+    if (bikes) {
+      for (let i = 0; i < bikes.length - 1; i++) {
+        const currentBikeDiscount = bikes[i].discount;
 
-      for (let j = i; j < bikes!.length - 1; j++) {
-        const nextBikeDiscount = bikes![j + 1].discount;
+        for (let j = i; j < bikes.length - 1; j++) {
+          const nextBikeDiscount = bikes![j + 1].discount;
 
-        if (nextBikeDiscount > currentBikeDiscount) {
-          const temp: Bike = bikes![i];
-          bikes![i] = bikes![j + 1];
-          bikes![j + 1] = temp;
+          if (nextBikeDiscount > currentBikeDiscount) {
+            const temp: Bike = bikes![i];
+            bikes![i] = bikes![j + 1];
+            bikes![j + 1] = temp;
+          }
         }
       }
     }

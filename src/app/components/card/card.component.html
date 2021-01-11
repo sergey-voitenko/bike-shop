@@ -1,0 +1,50 @@
+<div class="cards__item-top cards__item-line">
+  <div class="cards__item-label"><span><span>{{ bike.discount }}</span> % <br> off</span></div>
+
+  <div
+    *ngIf="!bike.main"
+    class="cards__item-text"
+  >
+    {{ bike.description | charLimitation: 35 }}
+  </div>
+
+  <div class="cards__item-image">
+    <img src="{{ bike.imgUrl }}" alt="">
+  </div>
+</div>
+
+<div class="cards__item-bottom">
+  <div class="cards__item-row cards__item-row--mb10 cards__item-row--pb10">
+    <div class="cards__item-line">
+      <div class="cards__item-part cards__item-part--flex cards__item-part--aife">
+        <div class="cards__item-price cards__item-price--new">
+          {{ bike.price - (bike.discount * bike.price / 100) | currency : 'EUR' }}
+        </div>
+        <div class="cards__item-price cards__item-price--old">
+          {{ bike.price | currency:'EUR' }}
+        </div>
+      </div>
+
+      <div class="cards__item-part">
+        <div class="cards__item-shop">{{ bike.shop }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="bike.main"
+    class="cards__item-row cards__item-row--pb15 cards__item-row--mb10"
+  >
+    <div class="cards__item-text">
+      {{ bike.description | charLimitation: 35 }}
+    </div>
+  </div>
+
+  <div class="cards__item-row">
+    <div class="cards__item-line">
+      <div class="cards__item-info" *ngIf="bike.shipping">{{ bike.shipping }}</div>
+      <div class="cards__item-info">{{ bike.new ? 'New': 'Used' }}</div>
+      <div class="cards__item-info">{{ bike.discountUntil | date }}</div>
+    </div>
+  </div>
+</div>

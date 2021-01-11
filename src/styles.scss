@@ -102,6 +102,7 @@ h1 {
   margin: 11px 14px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 
   &:nth-child(2),
   &:nth-child(4) {
@@ -853,5 +854,32 @@ h1 {
 
   .cards__item {
     min-height: auto;
+  }
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+
+  &-star {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: url("assets/images/star.png") no-repeat center top;
+
+    &.active {
+      background: url("assets/images/star-active.png") no-repeat center top;
+    }
+
+    &s {
+      display: flex;
+      margin-right: 5px;
+    }
+  }
+
+  &-count {
+    color: #34cdeb;
+    font-size: 14px;
+    line-height: 14px;
   }
 }
