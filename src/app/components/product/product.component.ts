@@ -5,6 +5,7 @@ import {Bike} from "../../interfaces/bike.interface";
 import {FormControl, FormGroup} from "@angular/forms";
 import {faMagic, faShoppingCart} from "@fortawesome/free-solid-svg-icons";
 import {Subscription} from "rxjs";
+import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-product',
@@ -19,7 +20,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   faMagic = faMagic;
   faShoppingCart = faShoppingCart;
   routeParamsSubscription!: Subscription;
-  bikeSubscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,12 +34,15 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeParamsSubscription.unsubscribe();
-    this.bikeSubscription.unsubscribe();
   }
 
   initBikeByParam(): void {
-    this.routeParamsSubscription = this.route.params.subscribe((params: Params) => {
-      this.bikeSubscription = this.bikeStoreService.getBikeById(+params.id).subscribe(bike => this.bike = bike!);
+    this.routeParamsSubscription = this.route.params.pipe(
+      switchMap((params: Params) => {
+        return this.bikeStoreService.getBikeById(+params.id);
+      })
+    ).subscribe((bike: Bike | undefined) => {
+      this.bike = bike!;
     });
   }
 
