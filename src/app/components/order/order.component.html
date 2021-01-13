@@ -33,15 +33,6 @@
           </div>
         </div>
       </div>
-
-      <div class="form__row">
-        <div class="form__button">
-          <button
-            (click)="incrementSteps()"
-            [disabled]="orderList.length === 0"
-          >Next step</button>
-        </div>
-      </div>
     </div>
 
     <div
@@ -265,7 +256,7 @@
                 </dl>
 
                 <dl>
-                  <dt>Price: </dt><dd>{{order.price}}</dd>
+                  <dt>Price: </dt><dd>{{order.price | currency: 'EUR'}}</dd>
                 </dl>
 
                 <dl>
