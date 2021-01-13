@@ -5,6 +5,7 @@ import {Order} from '../../interfaces/order.interface';
 import {Bike} from '../../interfaces/bike.interface';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -20,7 +21,8 @@ export class OrderComponent implements OnInit, DoCheck {
 
   constructor(
     private orderService: OrderService,
-    private bikesStoreService: BikesStoreService) {
+    private bikesStoreService: BikesStoreService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -75,7 +77,9 @@ export class OrderComponent implements OnInit, DoCheck {
   }
 
   order(): void {
-
+    const submittedOrder = {};
+    this.orderService.resetOrders();
+    this.router.navigate(['order/success']);
   }
 }
 

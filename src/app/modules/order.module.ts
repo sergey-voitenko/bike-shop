@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {OrderComponent} from '../components/order/order.component';
 import {RouterModule} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
+import {OrderSuccessComponent} from '../components/order-success/order-success.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {SharedModule} from '../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      {path: '', component: OrderComponent}
+      {path: '', component: OrderComponent},
+      {path: 'success', component: OrderSuccessComponent}
     ]),
     SharedModule
   ]

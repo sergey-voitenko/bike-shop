@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-contacts',
@@ -11,5 +12,10 @@ export class ContactsComponent {
   emailField = '';
   descriptionField = '';
 
-  onSubmit(): void {}
+  constructor(private router: Router) {
+  }
+
+  onSubmit(): void {
+    this.router.navigate(['contacts/success']);
+  }
 }

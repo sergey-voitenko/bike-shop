@@ -20,7 +20,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.orderSubscription = this.orderService.getOrders().pipe(
       map(order => order.map(item => item.quantity))
     ).subscribe(orders => {
-      this.ordersCount = orders.reduce((acc, val) => acc + val);
+      if (orders[0]) {
+        this.ordersCount = orders.reduce((acc, val) => acc + val);
+      } else {
+        this.ordersCount = 0;
+      }
     });
   }
 

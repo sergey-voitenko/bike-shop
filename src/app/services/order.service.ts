@@ -30,6 +30,11 @@ export class OrderService {
     return this.orders$.asObservable();
   }
 
+  resetOrders(): void {
+    this.orderList = [];
+    this.orders$.next([]);
+  }
+
   isOrderExist(order: Order): boolean {
     for (const orderItem of this.orderList) {
       const orderId = orderItem.id;
