@@ -1,6 +1,6 @@
 <header class="header">
   <a routerLink="/">
-    <img src="assets/images/logo.svg" alt="">
+    <img src="assets/images/logo.png" alt="">
   </a>
 </header>
 
@@ -24,6 +24,12 @@
 
         <div class="menu__item">
           <a href="registration.html" class="menu__link">Registration</a>
+        </div>
+
+        <div class="menu__item">
+          <a routerLink="/order" class="menu__link">
+            <span><fa-icon [icon]="faShoppingCart"></fa-icon></span> Order{{ordersCount > 0 ? '('+ordersCount+')' : ''}}
+          </a>
         </div>
       </div>
     </div>
@@ -67,4 +73,4 @@
   </aside>
 </div>
 
-<footer class="footer">All rights reserved &#169; 2020</footer>
+<footer class="footer">All rights reserved &#169;</footer>

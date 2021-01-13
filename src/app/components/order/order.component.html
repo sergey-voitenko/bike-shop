@@ -1,0 +1,304 @@
+<form [formGroup]="form" class="form">
+  <div class="form__parts">
+    <div
+      *ngIf="currentStep === 1"
+      formGroupName="address"
+      class="form__part"
+    >
+      <div class="form__row">
+        <h2>Goods</h2>
+
+        <div>
+          Choose bike:
+        </div>
+
+        <div class="form__goods">
+          <div
+            class="form__good"
+            *ngFor="let bike of bikes$ | async | sortByDiscount"
+            [routerLink]="['/product', bike.id]"
+          >
+            <div class="form__good-sides">
+              <div class="form__good-side">
+                <div class="form__good-image">
+                  <img src="{{bike.imgUrl}}" alt="">
+                </div>
+              </div>
+
+              <div class="form__good-side">
+                <div class="form__good-title">{{bike.name}}</div>
+                <div class="form__good-description">{{bike.description | charLimitation: 70}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__button">
+          <button
+            (click)="incrementSteps()"
+          >Next step</button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="currentStep === 2"
+      formGroupName="address"
+       class="form__part"
+    >
+      <div class="form__row">
+        <h2>Address</h2>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <div class="form__input">
+              <input formControlName="country" type="text" placeholder="Country...">
+            </div>
+          </div>
+
+          <div
+            *ngIf="!form.get('address')!.get('country')!.valid && form.get('address')!.get('country')!.touched"
+            class="form__errors"
+          >
+            <div
+              *ngIf="form.get('address')!.get('country')!.errors!.required"
+              class="form__error"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <div class="form__input">
+              <input formControlName="city" type="text" placeholder="City...">
+            </div>
+          </div>
+
+          <div
+            *ngIf="!form.get('address')!.get('city')!.valid && form.get('address')!.get('city')!.touched"
+            class="form__errors"
+          >
+            <div
+              *ngIf="form.get('address')!.get('city')!.errors!.required"
+              class="form__error"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <div class="form__input">
+              <input formControlName="street" type="text" placeholder="Street address...">
+            </div>
+          </div>
+
+          <div
+            *ngIf="!form.get('address')!.get('street')!.valid && form.get('address')!.get('street')!.touched"
+            class="form__errors"
+          >
+            <div
+              *ngIf="form.get('address')!.get('street')!.errors!.required"
+              class="form__error"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__elem form__elem--flex">
+          <div class="form__button">
+            <button
+              (click)="decrementSteps()"
+              *ngIf="orderList.length === 0"
+            >Previous step</button>
+          </div>
+
+          <div class="form__button">
+            <button
+              (click)="incrementSteps()"
+              [disabled]="!form.get('address')!.valid"
+            >Next step</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="currentStep === 3"
+      formGroupName="payment"
+      class="form__part"
+    >
+      <div class="form__row">
+        <h2>Payment method</h2>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem form__elem--flex">
+            <div class="form__input--radio">
+              <input formControlName="method" type="radio" value="card" id="payment-card">
+              <label for="payment-card">Card</label>
+            </div>
+
+            <div class="form__input--radio">
+              <input formControlName="method" type="radio" value="paypal" id="payment-paypal">
+              <label for="payment-paypal">PayPal</label>
+            </div>
+
+            <div class="form__input--radio">
+              <input formControlName="method" type="radio" value="cash" id="payment-cash">
+              <label for="payment-cash">Cash</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__elem form__elem--flex">
+          <div class="form__button">
+            <button
+              (click)="decrementSteps()"
+            >Previous step</button>
+          </div>
+
+          <div class="form__button">
+            <button
+              (click)="incrementSteps()"
+              [disabled]="!form.get('payment')!.valid"
+            >Next step</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="currentStep === 4"
+      formGroupName="delivery"
+      class="form__part"
+    >
+      <div class="form__row">
+        <h2>Date of delivery</h2>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem form__elem--flex">
+            <div class="form__input--radio">
+              <input formControlName="date" type="radio" value="today" id="delivery-today">
+              <label for="delivery-today">Today</label>
+            </div>
+
+            <div class="form__input--radio">
+              <input formControlName="date" type="radio" value="tomorrow" id="delivery-tomorrow">
+              <label for="delivery-tomorrow">Tomorrow</label>
+            </div>
+
+            <div class="form__input--radio">
+              <input #pickDate formControlName="date" type="radio" value="choose" id="delivery-choose">
+              <label for="delivery-choose">Choose date from calendar</label>
+            </div>
+          </div>
+
+          <div class="form__elem" *ngIf="pickDate.checked">
+            <div class="form__input">
+              <input formControlName="chosen" type="date" id="delivery-date">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__elem form__elem--flex">
+          <div class="form__button">
+            <button
+              (click)="decrementSteps()"
+            >Previous step</button>
+          </div>
+
+          <div class="form__button">
+            <button
+              (click)="incrementSteps()"
+              [disabled]="!form.get('delivery')!.valid"
+            >Next step</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="currentStep === 5"
+      class="form__part"
+    >
+      <div class="form__row">
+        <h2>Summary</h2>
+      </div>
+
+      <div class="form__row">
+        <div class="form__content">
+          <h3>Your order is:</h3>
+
+          <div class="order">
+            <div
+              class="order__item"
+              *ngFor="let order of orderList"
+            >
+              <div class="order__side">
+                <dl>
+                  <dt>Name: </dt><dd>{{order.name}}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Color: </dt><dd>{{order.color}}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Size: </dt><dd>{{order.size}}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Price: </dt><dd>{{order.price}}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Quantity: </dt><dd>{{order.quantity}}</dd>
+                </dl>
+              </div>
+
+              <div class="order__side">
+                <div class="order__image">
+                  <img src="{{order.imgUrl}}" alt="">
+                </div>
+              </div>
+            </div>
+
+            <h4>Total: {{sum | currency: 'EUR'}}</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__elem form__elem--flex">
+          <div class="form__button">
+            <button
+              (click)="decrementSteps()"
+            >Previous step</button>
+          </div>
+
+          <div class="form__button form__button--order">
+            <button
+              (click)="order()"
+            >Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

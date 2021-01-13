@@ -1,17 +1,18 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { MainComponent } from "./components/main/main.component";
-import { ContactsComponent } from "./components/contacts/contacts.component";
-import { ProductComponent } from "./components/product/product.component";
-import { NotfoundComponent } from "./components/notfound/notfound.component";
-import { ReviewsComponent } from "./components/reviews/reviews.component";
+import {MainComponent} from './components/main/main.component';
+import {ContactsComponent} from './components/contacts/contacts.component';
+import {ProductComponent} from './components/product/product.component';
+import {NotfoundComponent} from './components/notfound/notfound.component';
+import {ReviewsComponent} from './components/reviews/reviews.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'contacts', component: ContactsComponent},
   {path: 'product/:id', component: ProductComponent},
   {path: 'reviews/:id', component: ReviewsComponent},
+  {path: 'order', loadChildren: () => import('src/app/modules/order.module').then(m => m.OrderModule)},
   {path: '**', component: NotfoundComponent}
 ];
 

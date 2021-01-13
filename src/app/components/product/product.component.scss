@@ -124,8 +124,17 @@
       margin-bottom: 20px;
 
       button {
-        background: #b0daeb;
+        background: #33b9ef;
         color: #fff;
+
+        &:hover {
+          background: #55c2f6;
+        }
+
+        &:disabled {
+          background: #b0daeb;
+          cursor: not-allowed;
+        }
       }
     }
 

@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent {
+  nameField = '';
+  surnameField = '';
+  emailField = '';
+  descriptionField = '';
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  onSubmit(): void {}
 }

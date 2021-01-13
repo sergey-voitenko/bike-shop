@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
-import {BikesStoreService} from "../../services/bikes-store.service";
-import {Bike} from "../../interfaces/bike.interface";
-import {FormControl, FormGroup} from "@angular/forms";
-import {faMagic, faShoppingCart} from "@fortawesome/free-solid-svg-icons";
-import {Subscription} from "rxjs";
-import {switchMap} from "rxjs/operators";
+import {ActivatedRoute, Params} from '@angular/router';
+import {BikesStoreService} from '../../services/bikes-store.service';
+import {Bike} from '../../interfaces/bike.interface';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {faMagic, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
+import {Subscription} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {Order} from '../../interfaces/order.interface';
+import {OrderService} from '../../services/order.service';
 
 @Component({
   selector: 'app-product',
@@ -23,8 +25,10 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private bikeStoreService: BikesStoreService
-  ) {}
+    private bikeStoreService: BikesStoreService,
+    private orderService: OrderService
+  ) {
+  }
 
   ngOnInit(): void {
     this.initBikeByParam();
@@ -53,9 +57,21 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   initFormGroup(): void {
     this.form = new FormGroup({
-      color: new FormControl('default'),
-      size: new FormControl('default'),
-      quantity: new FormControl('')
-    })
+      color: new FormControl('', Validators.required),
+      size: new FormControl('', Validators.required),
+      quantity: new FormControl(1, Validators.required)
+    });
+  }
+
+  submit(): void {
+    const newOrder: Order = {
+      id: this.bike.id,
+      name: this.bike.name,
+      price: this.bike.discountedPrice,
+      discountUntil: this.bike.discountUntil,
+      imgUrl: this.bike.imgUrl,
+      ...this.form.value
+    };
+    this.orderService.addOrder(newOrder);
   }
 }
