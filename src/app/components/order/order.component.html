@@ -38,6 +38,7 @@
         <div class="form__button">
           <button
             (click)="incrementSteps()"
+            [disabled]="orderList.length === 0"
           >Next step</button>
         </div>
       </div>
