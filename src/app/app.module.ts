@@ -8,12 +8,11 @@ import {ContactsComponent} from './components/contacts/contacts.component';
 import {NotfoundComponent} from './components/notfound/notfound.component';
 import {AppRoutingModule} from './app-routing.module';
 import {CardComponent} from './components/card/card.component';
-import {CharLimitationPipe} from './pipes/char-limitation.pipe';
-import {SortByDiscountPipe} from './pipes/sort-by-discount.pipe';
 import {ProductComponent} from './components/product/product.component';
 import {ReviewsComponent} from './components/reviews/reviews.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,10 +21,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ContactsComponent,
     NotfoundComponent,
     CardComponent,
-    CharLimitationPipe,
-    SortByDiscountPipe,
     ProductComponent,
-    ReviewsComponent
+    ReviewsComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +32,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     }),
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

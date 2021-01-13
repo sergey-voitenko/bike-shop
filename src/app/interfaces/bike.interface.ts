@@ -1,4 +1,5 @@
 export interface Bike {
+  discountedPrice: number;
   id: number;
   imgUrl: string;
   price: number;
@@ -16,7 +17,7 @@ export interface Bike {
 }
 
 export interface IReview {
-  author: string,
-  text: string,
-  rating: number
+  author: string;
+  text: string;
+  rating: number;
 }

@@ -24,7 +24,7 @@
         </div>
       </ng-template>
 
-      <div class="product__price">{{bike.price | currency: 'USD'}}</div>
+      <div class="product__price">{{bike.discountedPrice | currency: 'EUR'}}</div>
 
       <div class="rating">
         <div class="rating-side">
@@ -59,7 +59,7 @@
           <div class="product__label product__label--mb5">Color</div>
 
           <select formControlName="color">
-            <option value="default">Select Color</option>
+            <option value="">Select Color</option>
             <option *ngFor="let color of bike.color" value="{{color}}">{{color}}</option>
           </select>
         </div>
@@ -68,7 +68,7 @@
           <div class="product__label product__label--mb5">Size</div>
 
           <select formControlName="size">
-            <option value="default">Select Size</option>
+            <option value="">Select Size</option>
             <option *ngFor="let size of bike.size" value="{{size}}">{{size}}</option>
           </select>
         </div>
@@ -80,11 +80,15 @@
         <div class="product__input">
           <div class="product__label product__label--mb5">Quantity</div>
 
-          <input type="number" value="1">
+          <input formControlName="quantity" type="number">
         </div>
 
         <div class="product__button product__button--cart">
-          <button type="submit">
+          <button
+            type="submit"
+            (click)="submit()"
+            [disabled]="!form.valid"
+          >
             <fa-icon [icon]="faShoppingCart"></fa-icon> Add to card
           </button>
         </div>

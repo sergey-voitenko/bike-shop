@@ -18,7 +18,7 @@
     <div class="cards__item-line">
       <div class="cards__item-part cards__item-part--flex cards__item-part--aife">
         <div class="cards__item-price cards__item-price--new">
-          {{ bike.price - (bike.discount * bike.price / 100) | currency : 'EUR' }}
+          {{ bike.discountedPrice | currency : 'EUR' }}
         </div>
         <div class="cards__item-price cards__item-price--old">
           {{ bike.price | currency:'EUR' }}
