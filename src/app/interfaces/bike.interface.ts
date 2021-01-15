@@ -1,10 +1,10 @@
 export interface Bike {
-  discountedPrice: number;
+  discountedPrice?: number;
   id: number;
   imgUrl: string;
   price: number;
   discount: number;
-  main: boolean;
+  main?: boolean;
   shop: string;
   name: string;
   description: string;

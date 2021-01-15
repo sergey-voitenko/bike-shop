@@ -51,8 +51,10 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   calculateRating(): void {
-    const sumOfRatings = this.bike.review.reduce((acc, review) => acc + review.rating, 0);
-    this.averageOfRating = sumOfRatings / this.bike.review.length;
+    if (this.bike.review) {
+      const sumOfRatings = this.bike.review.reduce((acc, review) => acc + review.rating, 0);
+      this.averageOfRating = sumOfRatings / this.bike.review.length;
+    }
   }
 
   initFormGroup(): void {
