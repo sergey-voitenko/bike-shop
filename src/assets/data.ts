@@ -1,10 +1,12 @@
-export const BIKES = [
+import {Bike} from '../app/interfaces/bike.interface';
+
+export const BIKES: Bike[] = [
   {
     id: 1,
     imgUrl: 'https://cyclingmagazine.ca/wp-content/uploads/2018/10/Krypton_A18_2016_red_ultegra_16_1.jpg',
     price: 28000,
     discount: 71,
-    main: true,
+    main: false,
     shop: 'Canada Bike',
     name: 'Argon 18',
     description: 'Founded by retired cyclist Gervais Rioux in Montreal in 1989, Argon 18 has grown to distribute bikes aross the world and sponsors a number of professional cycling teams and triathletes. In 2019, Argo 18 sponsores Hugo Houle’s UCI WorldTour team Astana',

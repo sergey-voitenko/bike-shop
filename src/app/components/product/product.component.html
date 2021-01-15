@@ -38,17 +38,17 @@
         </div>
 
         <div class="rating-side">
-          <div class="rating-count">({{bike.review.length}})</div>
+          <div class="rating-count">({{bike.review!.length}})</div>
         </div>
       </div>
 
       <div class="product__reviews">
         <div
           class="product__reviews-text"
-          *ngIf="bike.review.length"
+          *ngIf="bike.review!.length"
           [routerLink]="['/reviews', bike.id]"
         >
-          Read {{bike.review.length}} {{bike.review.length > 1 ? 'Reviews' : 'Review'}}
+          Read {{bike.review!.length}} {{bike.review!.length > 1 ? 'Reviews' : 'Review'}}
         </div>
 
         <div class="product__reviews-text">Write a Review</div>

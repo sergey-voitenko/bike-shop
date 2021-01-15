@@ -13,7 +13,7 @@ import {ReviewsComponent} from './components/reviews/reviews.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {SharedModule} from './shared/shared.module';
-import { OrderSuccessComponent } from './components/order-success/order-success.component';
+import { OrderSuccessComponent } from './modules/order/order-success/order-success.component';
 import { ContactsSuccessComponent } from './components/contacts-success/contacts-success.component';
 
 @NgModule({

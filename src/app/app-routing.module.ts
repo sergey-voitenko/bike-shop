@@ -14,7 +14,11 @@ const routes: Routes = [
   {path: 'contacts/success', component: ContactsSuccessComponent},
   {path: 'product/:id', component: ProductComponent},
   {path: 'reviews/:id', component: ReviewsComponent},
-  {path: 'order', loadChildren: () => import('src/app/modules/order.module').then(m => m.OrderModule)},
+  {path: 'order', loadChildren: () => import('src/app/modules/order/order.module').then(m => m.OrderModule)},
+  {
+    path: 'new-product',
+    loadChildren: () => import('src/app/modules/new-product/new-product.module').then(m => m.NewProductModule)
+  },
   {path: '**', component: NotfoundComponent}
 ];
 

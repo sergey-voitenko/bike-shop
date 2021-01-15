@@ -1,0 +1,20 @@
+.form {
+  width: 100%;
+  max-width: 800px;
+  margin: 50px auto;
+
+  &__part {
+    &:not(:last-child) {
+      margin-bottom: 40px;
+    }
+  }
+
+  &__elem {
+    width: 100%;
+  }
+}
+
+.preview {
+  display: block;
+  width: 100%;
+}

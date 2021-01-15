@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {OrderService} from '../../services/order.service';
-import {Order} from '../../interfaces/order.interface';
+import {OrderService} from './order.service';
+import {Order} from './order.interface';
 import {Bike} from '../../interfaces/bike.interface';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {Observable} from 'rxjs';
