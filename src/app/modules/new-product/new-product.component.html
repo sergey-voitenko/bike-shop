@@ -231,7 +231,7 @@
 
             <div class="form__select mb10">
               <select id="color" #colorSelect>
-                <option *ngFor="let color of colors" value="{{color}}">{{color}}</option>
+                <option *ngFor="let color of getColors()" value="{{color}}">{{color}}</option>
               </select>
             </div>
 
@@ -270,7 +270,7 @@
 
             <div class="form__select mb10">
               <select id="size" #sizeSelect>
-                <option *ngFor="let size of sizes" value="{{size}}">{{size}}</option>
+                <option *ngFor="let size of getSizes()" value="{{size}}">{{size}}</option>
               </select>
             </div>
 

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Order} from '../interfaces/order.interface';
+import {Order} from './order.interface';
 import {Observable, Subject} from 'rxjs';
 
 @Injectable({

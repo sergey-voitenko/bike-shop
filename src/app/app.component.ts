@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OrderService} from './services/order.service';
+import {OrderService} from './modules/order/order.service';
 import {Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';

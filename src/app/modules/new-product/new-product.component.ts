@@ -4,6 +4,7 @@ import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@a
 import {Bike} from '../../interfaces/bike.interface';
 import {Subscription} from 'rxjs';
 import {BikesStoreService} from '../../services/bikes-store.service';
+import {NewProductService} from './new-product.service';
 
 @Component({
   selector: 'app-new-product',
@@ -12,14 +13,13 @@ import {BikesStoreService} from '../../services/bikes-store.service';
 })
 export class NewProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
-  colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Brown', 'Magenta', 'Tan', 'Cyan', 'Olive', 'Maroon',
-            'Navy', 'Aquamarine', 'Turquoise', 'Silver', 'Lime', 'Teal', 'Indigo', 'Violet', 'Pink', 'Black', 'White',
-            'Gray'];
-  sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   bikesSubscription!: Subscription;
   uploadedImage!: File;
 
-  constructor(private bikesStoreService: BikesStoreService) {}
+  constructor(
+    private bikesStoreService: BikesStoreService,
+    private newProductService: NewProductService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -47,17 +47,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  addToFormArray(value: string, property: AbstractControl, element: HTMLSelectElement): void {
-    if (value.trim() && !property.value.find((v: string) => v === value)) {
-      const array = property as FormArray;
-      array.push(new FormControl(value));
-      element.value = '';
-    }
-  }
-
   onSubmit(): void {
-    console.log(this.form);
-
     const newBike: Bike = {
       id: 0,
       name: this.form.value.name,
@@ -73,19 +63,20 @@ export class NewProductComponent implements OnInit, OnDestroy {
       imgUrl: this.form.value.image,
       review: []
     };
+
     this.bikesSubscription = this.bikesStoreService.getBikes().subscribe(bikes => {
-      newBike.id = this.generateId(bikes);
+      newBike.id = this.newProductService.generateId(bikes);
     });
+
     BIKES.push(newBike);
-    console.log(newBike);
   }
 
-  generateId(bikes: Bike[]): number {
-    let maxId = 0;
-    for (const bike of bikes) {
-      maxId = bike.id > maxId ? bike.id : maxId;
+  addToFormArray(value: string, property: AbstractControl, element: HTMLSelectElement): void {
+    if (value.trim() && !property.value.find((v: string) => v === value)) {
+      const array = property as FormArray;
+      array.push(new FormControl(value));
+      element.value = '';
     }
-    return maxId + 1;
   }
 
   uploadHandler(event: any): void {
@@ -99,5 +90,13 @@ export class NewProductComponent implements OnInit, OnDestroy {
         }
       };
     }
+  }
+
+  getColors(): string[] {
+    return this.newProductService.colors;
+  }
+
+  getSizes(): string[] {
+    return this.newProductService.sizes;
   }
 }

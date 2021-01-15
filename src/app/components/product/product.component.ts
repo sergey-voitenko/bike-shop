@@ -6,8 +6,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {faMagic, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import {Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {Order} from '../../interfaces/order.interface';
-import {OrderService} from '../../services/order.service';
+import {Order} from '../../modules/order/order.interface';
+import {OrderService} from '../../modules/order/order.service';
 
 @Component({
   selector: 'app-product',
