@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BIKES} from '../../../assets/data';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Bike} from '../../interfaces/bike.interface';
 import {Subscription} from 'rxjs';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {NewProductService} from './new-product.service';
+import {FileUpload} from 'primeng/fileupload';
 
 @Component({
   selector: 'app-new-product',
@@ -15,6 +16,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   bikesSubscription!: Subscription;
   uploadedImage!: File;
+  @ViewChild('fileUpload') fileUpload!: FileUpload;
 
   constructor(
     private bikesStoreService: BikesStoreService,
@@ -69,6 +71,8 @@ export class NewProductComponent implements OnInit, OnDestroy {
     });
 
     BIKES.push(newBike);
+    this.form.reset();
+    this.fileUpload.clear();
   }
 
   addToFormArray(value: string, property: AbstractControl, element: HTMLSelectElement): void {

@@ -7,8 +7,6 @@
         <div class="form__control">
           <div class="form__elem">
             <label for="name" class="form__label">Image</label>
-<!--            <input type="file" formControlName="image" (change)="onSelectFile($event)">-->
-<!--            <img *ngIf="imageUrl" [src]="imageUrl" alt="" class="preview">-->
             <p-fileUpload
               name="image"
               accept="image/*"
@@ -16,6 +14,7 @@
               [showUploadButton]="false"
               (onSelect)="uploadHandler($event)"
               [fileLimit]="1"
+              #fileUpload
             >
             </p-fileUpload>
           </div>
