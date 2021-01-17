@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {BIKES} from '../../../assets/data';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Bike} from '../../interfaces/bike.interface';
-import {Subscription} from 'rxjs';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {NewProductService} from './new-product.service';
 import {FileUpload} from 'primeng/fileupload';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-product',
@@ -14,8 +14,8 @@ import {FileUpload} from 'primeng/fileupload';
 })
 export class NewProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
-  bikesSubscription!: Subscription;
   uploadedImage!: File;
+  destroyed$ = new Subject();
   @ViewChild('fileUpload') fileUpload!: FileUpload;
 
   constructor(
@@ -28,9 +28,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.bikesSubscription) {
-      this.bikesSubscription.unsubscribe();
-    }
+    this.destroyed$.next();
   }
 
   initForm(): void {
@@ -51,7 +49,6 @@ export class NewProductComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     const newBike: Bike = {
-      id: 0,
       name: this.form.value.name,
       price: +this.form.value.price,
       discount: +this.form.value.discount,
@@ -63,14 +60,12 @@ export class NewProductComponent implements OnInit, OnDestroy {
       color: this.form.value.color,
       size: this.form.value.size,
       imgUrl: this.form.value.image,
-      review: []
     };
 
-    this.bikesSubscription = this.bikesStoreService.getBikes().subscribe(bikes => {
-      newBike.id = this.newProductService.generateId(bikes);
-    });
+    this.bikesStoreService.createBike(newBike).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe();
 
-    BIKES.push(newBike);
     this.form.reset();
     this.fileUpload.clear();
   }
@@ -84,6 +79,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
   }
 
   uploadHandler(event: any): void {
+    console.log('Before:', this.form.get('image'));
     if (event.files) {
       this.uploadedImage = event.files[0];
       const reader = new FileReader();
@@ -94,6 +90,10 @@ export class NewProductComponent implements OnInit, OnDestroy {
         }
       };
     }
+  }
+
+  clearHandler(): void {
+    this.form.get('image')?.reset();
   }
 
   getColors(): string[] {

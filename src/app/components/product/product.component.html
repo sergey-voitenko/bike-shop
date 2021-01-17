@@ -2,29 +2,29 @@
   <div class="product__sides">
     <div class="product__side">
       <div class="product__photo">
-        <img src="{{bike.imgUrl}}" alt="">
+        <img src="{{bike?.imgUrl}}" alt="">
       </div>
     </div>
 
     <div class="product__side">
-      <div class="product__title">{{bike.name}}</div>
+      <div class="product__title">{{bike?.name}}</div>
 
       <div
         class="product__description"
         *ngIf="!descriptionToggle; else descriptionFull"
       >
-        <span>{{bike.description | charLimitation: 150}}</span><span class="product__description-button"
-        (click)="descriptionToggle = true"> (Read More)</span>
+        <span>{{bike?.description! | charLimitation: 150}}</span><span class="product__description-button"
+        (click)="descriptionToggle = true" *ngIf="bike ? bike.description.length > 150 : false"> (Read More)</span>
       </div>
 
       <ng-template #descriptionFull>
         <div class="product__description">
-          <span>{{bike.description}}</span><span class="product__description-button"
+          <span>{{bike?.description}}</span><span class="product__description-button"
           (click)="descriptionToggle = false"> (Collapse)</span>
         </div>
       </ng-template>
 
-      <div class="product__price">{{bike.discountedPrice | currency: 'EUR'}}</div>
+      <div class="product__price">{{bike?.discountedPrice | currency: 'EUR'}}</div>
 
       <div class="rating">
         <div class="rating-side">
@@ -38,17 +38,17 @@
         </div>
 
         <div class="rating-side">
-          <div class="rating-count">({{bike.review!.length}})</div>
+          <div class="rating-count">({{bike?.review! ? bike?.review!.length : 0}})</div>
         </div>
       </div>
 
       <div class="product__reviews">
         <div
           class="product__reviews-text"
-          *ngIf="bike.review!.length"
-          [routerLink]="['/reviews', bike.id]"
+          *ngIf="bike?.review"
+          [routerLink]="['/reviews', bike?.id]"
         >
-          Read {{bike.review!.length}} {{bike.review!.length > 1 ? 'Reviews' : 'Review'}}
+          Read {{bike!.review!.length}} {{bike!.review!.length > 1 ? 'Reviews' : 'Review'}}
         </div>
 
         <div class="product__reviews-text">Write a Review</div>
@@ -60,7 +60,7 @@
 
           <select formControlName="color">
             <option value="">Select Color</option>
-            <option *ngFor="let color of bike.color" value="{{color}}">{{color}}</option>
+            <option *ngFor="let color of bike?.color" value="{{color}}">{{color}}</option>
           </select>
         </div>
 
@@ -69,7 +69,7 @@
 
           <select formControlName="size">
             <option value="">Select Size</option>
-            <option *ngFor="let size of bike.size" value="{{size}}">{{size}}</option>
+            <option *ngFor="let size of bike?.size" value="{{size}}">{{size}}</option>
           </select>
         </div>
 

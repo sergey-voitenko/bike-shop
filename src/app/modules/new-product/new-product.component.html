@@ -13,6 +13,7 @@
               [maxFileSize]="1000000"
               [showUploadButton]="false"
               (onSelect)="uploadHandler($event)"
+              (onClear)="clearHandler()"
               [fileLimit]="1"
               #fileUpload
             >

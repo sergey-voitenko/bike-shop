@@ -1,21 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { BIKES } from '../../assets/data';
+import { Observable } from 'rxjs';
 import { Bike } from '../interfaces/bike.interface';
 import { map } from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BikesStoreService {
-  getBikes(): Observable<Bike[]> {
-    const bikes: Bike[] = [];
-    this.bikesHandler(bikes);
+  static url = 'https://bikes-1b310-default-rtdb.europe-west1.firebasedatabase.app/bikes.json';
 
-    return of(bikes);
+  constructor(private http: HttpClient) {}
+
+  getBikes(): Observable<Bike[]> {
+    return this.http.get<Bike[]>(BikesStoreService.url).pipe(
+      map(res => {
+        const array: Bike[] = Object.keys(res).map((key: any) => ({...res[key], id: key}));
+        this.bikesHandler(array);
+        return array;
+      })
+    );
   }
 
-  getBikeById(id: number): Observable<Bike | undefined> {
+  createBike(bike: Bike): Observable<Bike> {
+    return this.http.post<Bike>(BikesStoreService.url, bike);
+  }
+
+  getBikeById(id: string): Observable<Bike | undefined> {
     return this.getBikes().pipe(
       map(bikes => bikes.find(bike => bike.id === id))
     );
@@ -24,7 +35,7 @@ export class BikesStoreService {
   bikesHandler(bikes: Bike[]): void {
     let maxDiscount = 0;
 
-    for (const bike of BIKES) {
+    for (const bike of bikes) {
       const isDiscountEnded = new Date().getTime() > new Date(bike.discountUntil).getTime();
       let discountedPrice;
 
@@ -34,15 +45,9 @@ export class BikesStoreService {
         discountedPrice = bike.price - (bike.discount * bike.price / 100);
       }
 
-      const newBike = {
-        ...bike,
-        discountedPrice
-      };
-
-      newBike.main = false;
+      bike.discountedPrice = discountedPrice;
+      bike.main = false;
       maxDiscount = bike.discount > maxDiscount ? bike.discount : maxDiscount;
-
-      bikes.push(newBike);
     }
 
     const bikeWithMaxDiscount = bikes.find(bike => bike.discount === maxDiscount);

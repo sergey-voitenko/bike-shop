@@ -15,6 +15,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {SharedModule} from './shared/shared.module';
 import { OrderSuccessComponent } from './modules/order/order-success/order-success.component';
 import { ContactsSuccessComponent } from './components/contacts-success/contacts-success.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ContactsSuccessComponent } from './components/contacts-success/contacts
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CharLimitationPipe implements PipeTransform {
 
   transform(value: string, limit: number): string {
-    if (value.length > limit) {
+    if (value && value.length > limit) {
       const newString = value.substr(0, limit - 1);
 
       if (newString[newString.length - 1] === ' ') {

@@ -27,12 +27,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private bikeStoreService: BikesStoreService,
     private orderService: OrderService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initBikeByParam();
-    this.calculateRating();
     this.initFormGroup();
   }
 
@@ -43,10 +41,13 @@ export class ProductComponent implements OnInit, OnDestroy {
   initBikeByParam(): void {
     this.routeParamsSubscription = this.route.params.pipe(
       switchMap((params: Params) => {
-        return this.bikeStoreService.getBikeById(+params.id);
+        return this.bikeStoreService.getBikeById(params.id);
       })
     ).subscribe((bike: Bike | undefined) => {
-      this.bike = bike!;
+      if (bike) {
+        this.bike = bike;
+        this.calculateRating();
+      }
     });
   }
 
