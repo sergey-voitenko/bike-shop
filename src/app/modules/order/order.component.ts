@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {OrderService} from './order.service';
 import {Order} from './order.interface';
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss']
 })
-export class OrderComponent implements OnInit, DoCheck {
+export class OrderComponent implements OnInit {
   form!: FormGroup;
   currentStep = 1;
   orderList!: Order[];
@@ -32,20 +32,16 @@ export class OrderComponent implements OnInit, DoCheck {
     this.initForm();
   }
 
-  ngDoCheck(): void {
-    console.log(this.form);
-  }
-
-  initBikes(): void {
+  private initBikes(): void {
     this.bikes$ = this.bikesStoreService.getBikes();
   }
 
-  initCurrentStep(): void {
+  private initCurrentStep(): void {
     this.orderList = this.orderService.orderList;
     this.currentStep = this.orderList.length > 0 ? 2 : 1;
   }
 
-  initForm(): void {
+  private initForm(): void {
     this.form = new FormGroup({
       address: new FormGroup({
         country: new FormControl('', [Validators.required]),
@@ -70,7 +66,7 @@ export class OrderComponent implements OnInit, DoCheck {
     this.currentStep--;
   }
 
-  calculateSum(): void {
+  private calculateSum(): void {
     for (const order of this.orderList) {
       this.sum += order.price * order.quantity;
     }

@@ -18,6 +18,14 @@
               #fileUpload
             >
             </p-fileUpload>
+
+            <div
+              class="progressbar"
+              *ngIf="progressBar"
+            >
+              <div [style.width.%]="uploadPercent | async"></div>
+              <span *ngIf="(uploadPercent | async) === 100">Completed</span>
+            </div>
           </div>
 
           <div

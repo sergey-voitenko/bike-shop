@@ -16,6 +16,9 @@ import {SharedModule} from './shared/shared.module';
 import { OrderSuccessComponent } from './modules/order/order-success/order-success.component';
 import { ContactsSuccessComponent } from './components/contacts-success/contacts-success.component';
 import {HttpClientModule} from '@angular/common/http';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import {HttpClientModule} from '@angular/common/http';
     ReactiveFormsModule,
     FontAwesomeModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -17,6 +17,14 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
+    this.initOrdersCount();
+  }
+
+  ngOnDestroy(): void {
+    this.orderSubscription.unsubscribe();
+  }
+
+  initOrdersCount(): void {
     this.orderSubscription = this.orderService.getOrders().pipe(
       map(order => order.map(item => item.quantity))
     ).subscribe(orders => {
@@ -26,9 +34,5 @@ export class AppComponent implements OnInit, OnDestroy {
         this.ordersCount = 0;
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.orderSubscription.unsubscribe();
   }
 }

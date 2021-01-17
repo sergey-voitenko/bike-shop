@@ -38,7 +38,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.routeParamsSubscription.unsubscribe();
   }
 
-  initBikeByParam(): void {
+  private initBikeByParam(): void {
     this.routeParamsSubscription = this.route.params.pipe(
       switchMap((params: Params) => {
         return this.bikeStoreService.getBikeById(params.id);
@@ -51,14 +51,14 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  calculateRating(): void {
+  private calculateRating(): void {
     if (this.bike.review) {
       const sumOfRatings = this.bike.review.reduce((acc, review) => acc + review.rating, 0);
       this.averageOfRating = sumOfRatings / this.bike.review.length;
     }
   }
 
-  initFormGroup(): void {
+  private initFormGroup(): void {
     this.form = new FormGroup({
       color: new FormControl('', Validators.required),
       size: new FormControl('', Validators.required),

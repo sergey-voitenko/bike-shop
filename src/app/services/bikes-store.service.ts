@@ -3,17 +3,18 @@ import { Observable } from 'rxjs';
 import { Bike } from '../interfaces/bike.interface';
 import { map } from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BikesStoreService {
-  static url = 'https://bikes-1b310-default-rtdb.europe-west1.firebasedatabase.app/bikes.json';
+  static url = environment.firebaseConfig.databaseURL;
 
   constructor(private http: HttpClient) {}
 
   getBikes(): Observable<Bike[]> {
-    return this.http.get<Bike[]>(BikesStoreService.url).pipe(
+    return this.http.get<Bike[]>(`${BikesStoreService.url}/bikes.json`).pipe(
       map(res => {
         const array: Bike[] = Object.keys(res).map((key: any) => ({...res[key], id: key}));
         this.bikesHandler(array);
@@ -23,7 +24,7 @@ export class BikesStoreService {
   }
 
   createBike(bike: Bike): Observable<Bike> {
-    return this.http.post<Bike>(BikesStoreService.url, bike);
+    return this.http.post<Bike>(`${BikesStoreService.url}/bikes.json`, bike);
   }
 
   getBikeById(id: string): Observable<Bike | undefined> {
@@ -32,7 +33,7 @@ export class BikesStoreService {
     );
   }
 
-  bikesHandler(bikes: Bike[]): void {
+  private bikesHandler(bikes: Bike[]): void {
     let maxDiscount = 0;
 
     for (const bike of bikes) {

@@ -4,8 +4,9 @@ import {Bike} from '../../interfaces/bike.interface';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {NewProductService} from './new-product.service';
 import {FileUpload} from 'primeng/fileupload';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {finalize, takeUntil} from 'rxjs/operators';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
   selector: 'app-new-product',
@@ -14,13 +15,16 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class NewProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
-  uploadedImage!: File;
   destroyed$ = new Subject();
+  downloadUrl!: Observable<string>;
+  uploadPercent!: Observable<number | undefined>;
+  progressBar = false;
   @ViewChild('fileUpload') fileUpload!: FileUpload;
 
   constructor(
     private bikesStoreService: BikesStoreService,
-    private newProductService: NewProductService
+    private newProductService: NewProductService,
+    private storage: AngularFireStorage
   ) {}
 
   ngOnInit(): void {
@@ -29,9 +33,10 @@ export class NewProductComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
-  initForm(): void {
+  private initForm(): void {
     this.form = new FormGroup({
       image: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
@@ -64,10 +69,10 @@ export class NewProductComponent implements OnInit, OnDestroy {
 
     this.bikesStoreService.createBike(newBike).pipe(
       takeUntil(this.destroyed$)
-    ).subscribe();
-
-    this.form.reset();
-    this.fileUpload.clear();
+    ).subscribe(() => {
+      this.form.reset();
+      this.fileUpload.clear();
+    });
   }
 
   addToFormArray(value: string, property: AbstractControl, element: HTMLSelectElement): void {
@@ -79,21 +84,34 @@ export class NewProductComponent implements OnInit, OnDestroy {
   }
 
   uploadHandler(event: any): void {
-    console.log('Before:', this.form.get('image'));
     if (event.files) {
-      this.uploadedImage = event.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(this.uploadedImage);
-      reader.onload = (readerEvent) => {
-        if (readerEvent.target && readerEvent.target.result) {
-          this.form.get('image')?.setValue(readerEvent.target.result.toString());
-        }
-      };
+      const date = Date.now();
+      const file = event.files[0];
+      const filePath = `images/${date}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+      this.progressBar = true;
+      this.uploadPercent = task.percentageChanges();
+
+      task.snapshotChanges().pipe(
+        takeUntil(this.destroyed$),
+        finalize(() => {
+          this.downloadUrl = fileRef.getDownloadURL();
+          this.downloadUrl.pipe(
+            takeUntil(this.destroyed$)
+          ).subscribe(url => {
+            if (url) {
+              this.form.get('image')?.setValue(url);
+            }
+          });
+        })
+      ).subscribe();
     }
   }
 
   clearHandler(): void {
     this.form.get('image')?.reset();
+    this.progressBar = false;
   }
 
   getColors(): string[] {

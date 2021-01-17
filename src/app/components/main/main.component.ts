@@ -17,7 +17,7 @@ export class MainComponent implements OnInit{
     this.getBikes();
   }
 
-  getBikes(): void {
+  private getBikes(): void {
     this.bikes$ = this.bikesStoreService.getBikes();
   }
 }

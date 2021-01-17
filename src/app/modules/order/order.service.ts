@@ -35,7 +35,7 @@ export class OrderService {
     this.orders$.next([]);
   }
 
-  isOrderExist(order: Order): boolean {
+  private isOrderExist(order: Order): boolean {
     for (const orderItem of this.orderList) {
       const orderId = orderItem.id;
       const orderColor = orderItem.color;
