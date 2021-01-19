@@ -8,15 +8,35 @@ import {OrderSuccessComponent} from './order-success/order-success.component';
 
 @NgModule({
   declarations: [
-    OrderComponent,
+    OrderComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      {path: '', component: OrderComponent},
-      {path: 'success', component: OrderSuccessComponent}
+      {
+        path: '',
+        data: {
+          breadcrumb: 'Order'
+        },
+        children: [
+          {
+            path: '',
+            data: {
+              breadcrumb: null
+            },
+            component: OrderComponent
+          },
+          {
+            path: 'success',
+            data: {
+              breadcrumb: 'Success'
+            },
+            component: OrderSuccessComponent
+          }
+        ]
+      }
     ]),
     SharedModule
   ]

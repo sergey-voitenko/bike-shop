@@ -18,10 +18,10 @@
     <div class="cards__item-line">
       <div class="cards__item-part cards__item-part--flex cards__item-part--aife">
         <div class="cards__item-price cards__item-price--new">
-          {{ bike.discountedPrice | currency : 'EUR' }}
+          {{ bike.discountedPrice | exchangeCurrency: exchangeRate | currency: currency }}
         </div>
         <div class="cards__item-price cards__item-price--old">
-          {{ bike.price | currency:'EUR' }}
+          {{ bike.price | exchangeCurrency: exchangeRate | currency:currency }}
         </div>
       </div>
 

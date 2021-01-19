@@ -4,6 +4,8 @@
       class="cards__item"
       *ngFor="let bike of bikes$ | async | sortByDiscount"
       [bike]="bike"
+      [currency]="currency"
+      [exchangeRate]="exchangeRate"
       [class.discount-70]="bike.discount >= 70"
       [class.discount-60]="bike.discount < 70 && bike.discount >= 60"
       [class.discount-50]="bike.discount < 60 && bike.discount >= 50"
