@@ -18,24 +18,6 @@
               #fileUpload
             >
             </p-fileUpload>
-
-            <div
-              class="progressbar"
-              *ngIf="progressBar"
-            >
-              <div [style.width.%]="uploadPercent | async"></div>
-              <span *ngIf="(uploadPercent | async) === 100">Completed</span>
-            </div>
-          </div>
-
-          <div
-            *ngIf="form.get('image')?.invalid"
-            class="form__errors"
-          >
-            <div
-              *ngIf="form.get('image')?.errors?.required"
-              class="form__error"
-            >Need to add image</div>
           </div>
         </div>
       </div>

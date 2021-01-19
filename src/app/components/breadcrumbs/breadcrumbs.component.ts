@@ -54,8 +54,6 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   private createBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: MenuItem[] = []): MenuItem[] {
     const children: ActivatedRoute[] = route.children;
 
-    console.log(route)
-
     if (children.length === 0) {
       return breadcrumbs;
     }

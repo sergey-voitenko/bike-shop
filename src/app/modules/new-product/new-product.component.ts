@@ -5,7 +5,7 @@ import {BikesStoreService} from '../../services/bikes-store.service';
 import {NewProductService} from './new-product.service';
 import {FileUpload} from 'primeng/fileupload';
 import {Observable, Subject} from 'rxjs';
-import {finalize, takeUntil} from 'rxjs/operators';
+import {finalize, last, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
@@ -17,8 +17,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   destroyed$ = new Subject();
   downloadUrl!: Observable<string>;
-  uploadPercent!: Observable<number | undefined>;
-  progressBar = false;
+  imageFile!: File;
   @ViewChild('fileUpload') fileUpload!: FileUpload;
 
   constructor(
@@ -38,7 +37,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.form = new FormGroup({
-      image: new FormControl('', Validators.required),
+      image: new FormControl(''),
       name: new FormControl('', Validators.required),
       price: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
       discount: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
@@ -53,7 +52,25 @@ export class NewProductComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    const newBike: Bike = {
+    const date = Date.now();
+    const filePath = `images/${date}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, this.imageFile);
+
+    task.snapshotChanges().pipe(
+      takeUntil(this.destroyed$),
+      last(),
+      switchMap(() => fileRef.getDownloadURL()),
+      tap((url) => this.form.get('image')?.setValue(url)),
+      switchMap(() => this.bikesStoreService.createBike(this.createNewBike()))
+    ).subscribe(() => {
+      this.form.reset();
+      this.fileUpload.clear();
+    });
+  }
+
+  private createNewBike(): Bike {
+    return {
       name: this.form.value.name,
       price: +this.form.value.price,
       discount: +this.form.value.discount,
@@ -66,13 +83,6 @@ export class NewProductComponent implements OnInit, OnDestroy {
       size: this.form.value.size,
       imgUrl: this.form.value.image,
     };
-
-    this.bikesStoreService.createBike(newBike).pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe(() => {
-      this.form.reset();
-      this.fileUpload.clear();
-    });
   }
 
   addToFormArray(value: string, property: AbstractControl, element: HTMLSelectElement): void {
@@ -85,33 +95,12 @@ export class NewProductComponent implements OnInit, OnDestroy {
 
   uploadHandler(event: any): void {
     if (event.files) {
-      const date = Date.now();
-      const file = event.files[0];
-      const filePath = `images/${date}`;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, file);
-      this.progressBar = true;
-      this.uploadPercent = task.percentageChanges();
-
-      task.snapshotChanges().pipe(
-        takeUntil(this.destroyed$),
-        finalize(() => {
-          this.downloadUrl = fileRef.getDownloadURL();
-          this.downloadUrl.pipe(
-            takeUntil(this.destroyed$)
-          ).subscribe(url => {
-            if (url) {
-              this.form.get('image')?.setValue(url);
-            }
-          });
-        })
-      ).subscribe();
+      this.imageFile = event.files[0];
     }
   }
 
   clearHandler(): void {
     this.form.get('image')?.reset();
-    this.progressBar = false;
   }
 
   getColors(): string[] {
