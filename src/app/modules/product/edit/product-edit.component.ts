@@ -8,6 +8,7 @@ import {last, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {FileUpload} from 'primeng/fileupload';
 import {Bike} from '../../../interfaces/bike.interface';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {EMPTY} from "rxjs";
 
 @Component({
   selector: 'app-edit',
@@ -35,21 +36,33 @@ export class ProductEditComponent extends NewProductComponent implements OnInit 
   }
 
   onSubmit(): void {
-    const date = Date.now();
-    const filePath = `images/${date}`;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.imageFile);
+    if (this.imageFile) {
+      const date = Date.now();
+      const filePath = `images/${date}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.imageFile);
 
-    task.snapshotChanges().pipe(
-      last(),
-      switchMap(() => fileRef.getDownloadURL()),
-      tap((url) => this.form.get('image')?.setValue(url)),
-      switchMap(() => this.bikesStoreService.updateBike(this.bikeId, this.createNewBike())),
-      switchMap(() => this.bikesStoreService.deleteFromStorage(this.bike.imgUrl)),
-      takeUntil(this.destroyed$)
-    ).subscribe(() => {
-      this.reset();
-    });
+      task.snapshotChanges().pipe(
+        last(),
+        switchMap(() => fileRef.getDownloadURL()),
+        tap((url) => this.form.get('image')?.setValue(url)),
+        switchMap(() => this.bikesStoreService.updateBike(this.bikeId, this.createNewBike())),
+        switchMap(() => {
+          return this.bikesStoreService.deleteFromStorage(this.bike.imgUrl);
+        }),
+        takeUntil(this.destroyed$)
+      ).subscribe(() => {
+        this.reset();
+        this.router.navigate(['/']);
+      });
+    } else {
+      this.bikesStoreService.updateBike(this.bikeId, this.createNewBike()).pipe(
+        takeUntil(this.destroyed$)
+      ).subscribe(() => {
+        this.reset();
+        this.router.navigate(['/']);
+      });
+    }
   }
 
   initBike(): void {
@@ -64,6 +77,7 @@ export class ProductEditComponent extends NewProductComponent implements OnInit 
       }
 
       this.setFormValues();
+      console.log(this.bike.imgUrl);
     });
   }
 
