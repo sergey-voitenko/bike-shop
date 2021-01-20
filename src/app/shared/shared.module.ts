@@ -9,7 +9,7 @@ import {CharLimitationPipe} from '../pipes/char-limitation.pipe';
     CharLimitationPipe
   ],
   imports: [
-    CommonModule,
+    CommonModule
   ],
   exports: [
     SortByDiscountPipe,

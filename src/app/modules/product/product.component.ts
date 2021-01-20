@@ -3,11 +3,11 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {Bike} from '../../interfaces/bike.interface';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {faMagic, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
-import {Subscription} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
-import {Order} from '../../modules/order/order.interface';
-import {OrderService} from '../../modules/order/order.service';
+import {Subject} from 'rxjs';
+import {switchMap, takeUntil} from 'rxjs/operators';
+import {Order} from '../order/order.interface';
+import {OrderService} from '../order/order.service';
+import {AppService} from '../../app.service';
 
 @Component({
   selector: 'app-product',
@@ -19,45 +19,50 @@ export class ProductComponent implements OnInit, OnDestroy {
   averageOfRating!: number;
   form!: FormGroup;
   descriptionToggle = false;
-  faMagic = faMagic;
-  faShoppingCart = faShoppingCart;
-  routeParamsSubscription!: Subscription;
+  destroyed$ = new Subject();
+  currency!: 'USD' | 'EUR' | 'GBP';
+  exchangeRate = 0;
 
   constructor(
     private route: ActivatedRoute,
     private bikeStoreService: BikesStoreService,
-    private orderService: OrderService
-  ) {
-  }
+    private orderService: OrderService,
+    private appService: AppService,
+  ) {}
 
   ngOnInit(): void {
     this.initBikeByParam();
-    this.calculateRating();
     this.initFormGroup();
+    this.getCurrency();
   }
 
   ngOnDestroy(): void {
-    this.routeParamsSubscription.unsubscribe();
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
-  initBikeByParam(): void {
-    this.routeParamsSubscription = this.route.params.pipe(
+  private initBikeByParam(): void {
+    this.route.params.pipe(
+      takeUntil(this.destroyed$),
       switchMap((params: Params) => {
-        return this.bikeStoreService.getBikeById(+params.id);
+        return this.bikeStoreService.getBikeById(params.id);
       })
     ).subscribe((bike: Bike | undefined) => {
-      this.bike = bike!;
+      if (bike) {
+        this.bike = bike;
+        this.calculateRating();
+      }
     });
   }
 
-  calculateRating(): void {
+  private calculateRating(): void {
     if (this.bike.review) {
       const sumOfRatings = this.bike.review.reduce((acc, review) => acc + review.rating, 0);
       this.averageOfRating = sumOfRatings / this.bike.review.length;
     }
   }
 
-  initFormGroup(): void {
+  private initFormGroup(): void {
     this.form = new FormGroup({
       color: new FormControl('', Validators.required),
       size: new FormControl('', Validators.required),
@@ -76,4 +81,16 @@ export class ProductComponent implements OnInit, OnDestroy {
     };
     this.orderService.addOrder(newOrder);
   }
+
+  private getCurrency(): void {
+    this.appService.getCurrency().pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe(value => {
+      this.currency = value;
+      this.appService.getExchangeRate().pipe(
+        takeUntil(this.destroyed$)
+      ).subscribe(res => this.exchangeRate = res.rates[value]);
+    });
+  }
+
 }

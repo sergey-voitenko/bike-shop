@@ -7,27 +7,17 @@
         <div class="form__control">
           <div class="form__elem">
             <label for="name" class="form__label">Image</label>
-<!--            <input type="file" formControlName="image" (change)="onSelectFile($event)">-->
-<!--            <img *ngIf="imageUrl" [src]="imageUrl" alt="" class="preview">-->
             <p-fileUpload
               name="image"
               accept="image/*"
               [maxFileSize]="1000000"
               [showUploadButton]="false"
               (onSelect)="uploadHandler($event)"
+              (onClear)="clearHandler()"
               [fileLimit]="1"
+              #fileUpload
             >
             </p-fileUpload>
-          </div>
-
-          <div
-            *ngIf="form.get('image')?.invalid"
-            class="form__errors"
-          >
-            <div
-              *ngIf="form.get('image')?.errors?.required"
-              class="form__error"
-            >Need to add image</div>
           </div>
         </div>
       </div>

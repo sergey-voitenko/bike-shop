@@ -16,7 +16,11 @@ import {HttpClientModule} from '@angular/common/http';
     CommonModule,
     SharedModule,
     RouterModule.forChild([
-      {path: '', component: NewProductComponent}
+      {
+        path: '',
+        component: NewProductComponent,
+        data: {breadcrumb: 'New Product'}
+      }
     ]),
     ReactiveFormsModule,
     FormsModule,

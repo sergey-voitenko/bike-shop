@@ -1,10 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BIKES} from '../../../assets/data';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Bike} from '../../interfaces/bike.interface';
-import {Subscription} from 'rxjs';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {NewProductService} from './new-product.service';
+import {FileUpload} from 'primeng/fileupload';
+import {Observable, Subject} from 'rxjs';
+import {finalize, last, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
   selector: 'app-new-product',
@@ -13,12 +15,15 @@ import {NewProductService} from './new-product.service';
 })
 export class NewProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
-  bikesSubscription!: Subscription;
-  uploadedImage!: File;
+  destroyed$ = new Subject();
+  downloadUrl!: Observable<string>;
+  imageFile!: File;
+  @ViewChild('fileUpload') fileUpload!: FileUpload;
 
   constructor(
     private bikesStoreService: BikesStoreService,
-    private newProductService: NewProductService
+    private newProductService: NewProductService,
+    private storage: AngularFireStorage
   ) {}
 
   ngOnInit(): void {
@@ -26,14 +31,13 @@ export class NewProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.bikesSubscription) {
-      this.bikesSubscription.unsubscribe();
-    }
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
-  initForm(): void {
+  private initForm(): void {
     this.form = new FormGroup({
-      image: new FormControl('', Validators.required),
+      image: new FormControl(''),
       name: new FormControl('', Validators.required),
       price: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
       discount: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
@@ -48,8 +52,25 @@ export class NewProductComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    const newBike: Bike = {
-      id: 0,
+    const date = Date.now();
+    const filePath = `images/${date}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, this.imageFile);
+
+    task.snapshotChanges().pipe(
+      takeUntil(this.destroyed$),
+      last(),
+      switchMap(() => fileRef.getDownloadURL()),
+      tap((url) => this.form.get('image')?.setValue(url)),
+      switchMap(() => this.bikesStoreService.createBike(this.createNewBike()))
+    ).subscribe(() => {
+      this.form.reset();
+      this.fileUpload.clear();
+    });
+  }
+
+  private createNewBike(): Bike {
+    return {
       name: this.form.value.name,
       price: +this.form.value.price,
       discount: +this.form.value.discount,
@@ -61,14 +82,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
       color: this.form.value.color,
       size: this.form.value.size,
       imgUrl: this.form.value.image,
-      review: []
     };
-
-    this.bikesSubscription = this.bikesStoreService.getBikes().subscribe(bikes => {
-      newBike.id = this.newProductService.generateId(bikes);
-    });
-
-    BIKES.push(newBike);
   }
 
   addToFormArray(value: string, property: AbstractControl, element: HTMLSelectElement): void {
@@ -81,15 +95,12 @@ export class NewProductComponent implements OnInit, OnDestroy {
 
   uploadHandler(event: any): void {
     if (event.files) {
-      this.uploadedImage = event.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(this.uploadedImage);
-      reader.onload = (readerEvent) => {
-        if (readerEvent.target && readerEvent.target.result) {
-          this.form.get('image')?.setValue(readerEvent.target.result.toString());
-        }
-      };
+      this.imageFile = event.files[0];
     }
+  }
+
+  clearHandler(): void {
+    this.form.get('image')?.reset();
   }
 
   getColors(): string[] {

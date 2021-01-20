@@ -16,6 +16,6 @@ export class ContactsComponent {
   }
 
   onSubmit(): void {
-    this.router.navigate(['contacts/success']);
+    this.router.navigate(['contact/success']);
   }
 }

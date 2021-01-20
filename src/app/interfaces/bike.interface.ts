@@ -1,6 +1,6 @@
 export interface Bike {
   discountedPrice?: number;
-  id: number;
+  id?: string;
   imgUrl: string;
   price: number;
   discount: number;
@@ -13,7 +13,7 @@ export interface Bike {
   new: boolean;
   color: string[];
   size: string[];
-  review: IReview[];
+  review?: IReview[];
 }
 
 export interface IReview {

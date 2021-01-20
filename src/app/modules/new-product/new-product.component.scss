@@ -18,3 +18,31 @@
   display: block;
   width: 100%;
 }
+
+.progressbar {
+  width: 200px;
+  height: 4px;
+  position: relative;
+  background: lightgrey;
+  border-radius: 30px;
+  margin: 10px 0;
+
+  & > div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: green;
+    border-radius: 30px;
+    transition: .3s ease-in-out;
+    margin-right: 10px;
+  }
+
+  & > span {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
