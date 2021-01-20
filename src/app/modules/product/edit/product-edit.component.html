@@ -17,6 +17,9 @@
               [fileLimit]="1"
               #fileUpload
             >
+              <ng-template pTemplate="content">
+                <img [src]="bike?.imgUrl" alt="" class="form__image-preview" *ngIf="!imageFile">
+              </ng-template>
             </p-fileUpload>
           </div>
         </div>

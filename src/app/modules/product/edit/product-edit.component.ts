@@ -7,7 +7,7 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {last, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {FileUpload} from 'primeng/fileupload';
 import {Bike} from '../../../interfaces/bike.interface';
-import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-edit',
@@ -45,6 +45,7 @@ export class ProductEditComponent extends NewProductComponent implements OnInit 
       switchMap(() => fileRef.getDownloadURL()),
       tap((url) => this.form.get('image')?.setValue(url)),
       switchMap(() => this.bikesStoreService.updateBike(this.bikeId, this.createNewBike())),
+      switchMap(() => this.bikesStoreService.deleteFromStorage(this.bike.imgUrl)),
       takeUntil(this.destroyed$)
     ).subscribe(() => {
       this.reset();

@@ -87,6 +87,9 @@ export class ProductComponent implements OnInit, OnDestroy {
         switchMap(bikes => {
           return this.bikeStoreService.updateBikes(bikes);
         }),
+        switchMap(bike => {
+          return this.bikeStoreService.deleteFromStorage(this.bike.imgUrl);
+        }),
         takeUntil(this.destroyed$)
       ).subscribe(() => {
         this.router.navigate(['/']);
