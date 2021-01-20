@@ -13,7 +13,8 @@ import {CharLimitationPipe} from '../pipes/char-limitation.pipe';
   ],
   exports: [
     SortByDiscountPipe,
-    CharLimitationPipe
+    CharLimitationPipe,
+    CommonModule
   ]
 })
 export class SharedModule {

@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrderService} from './modules/order/order.service';
 import {Subject} from 'rxjs';
-import {map, takeUntil} from 'rxjs/operators';
-import {AppService} from './app.service';
+import {map, switchMap, takeUntil} from 'rxjs/operators';
+import {CurrencyService} from './services/currency.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +12,11 @@ import {AppService} from './app.service';
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private orderService: OrderService,
-    private appService: AppService
+    public currencyService: CurrencyService
   ) {}
 
   ordersCount = 0;
   destroyed$ = new Subject();
-  currency = '';
 
   ngOnInit(): void {
     this.initOrdersCount();
@@ -43,14 +42,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   setCurrency(currency: 'USD' | 'EUR' | 'GBP'): void {
-    this.appService.setCurrency(currency);
+    this.currencyService.setCurrency(currency);
   }
 
   private getCurrency(): void {
-    this.appService.getCurrency().pipe(
+    this.currencyService.getCurrency().pipe(
+      switchMap((currency) => {
+        CurrencyService.currency = currency;
+        return this.currencyService.getExchangeRate();
+      }),
       takeUntil(this.destroyed$)
-    ).subscribe(value => {
-      this.currency = value;
+    ).subscribe(res => {
+      CurrencyService.exchangeRate = res.rates[CurrencyService.currency];
     });
   }
 }

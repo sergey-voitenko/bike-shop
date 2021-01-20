@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {Bike} from '../../interfaces/bike.interface';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {Order} from '../order/order.interface';
 import {OrderService} from '../order/order.service';
-import {AppService} from '../../app.service';
+import {CurrencyService} from '../../services/currency.service';
 
 @Component({
   selector: 'app-product',
@@ -20,20 +20,18 @@ export class ProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   descriptionToggle = false;
   destroyed$ = new Subject();
-  currency!: 'USD' | 'EUR' | 'GBP';
-  exchangeRate = 0;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private bikeStoreService: BikesStoreService,
     private orderService: OrderService,
-    private appService: AppService,
+    public currencyService: CurrencyService,
   ) {}
 
   ngOnInit(): void {
     this.initBikeByParam();
     this.initFormGroup();
-    this.getCurrency();
   }
 
   ngOnDestroy(): void {
@@ -82,15 +80,19 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.orderService.addOrder(newOrder);
   }
 
-  private getCurrency(): void {
-    this.appService.getCurrency().pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe(value => {
-      this.currency = value;
-      this.appService.getExchangeRate().pipe(
+  onDelete(): void {
+    this.bikeStoreService.getBikes()
+      .pipe(
+        map(bikes => bikes.filter(bike => bike.id !== this.bike.id)),
+        switchMap(bikes => {
+          return this.bikeStoreService.updateBikes(bikes);
+        }),
+        switchMap(bike => {
+          return this.bikeStoreService.deleteFromStorage(this.bike.imgUrl);
+        }),
         takeUntil(this.destroyed$)
-      ).subscribe(res => this.exchangeRate = res.rates[value]);
-    });
+      ).subscribe(() => {
+        this.router.navigate(['/']);
+      });
   }
-
 }

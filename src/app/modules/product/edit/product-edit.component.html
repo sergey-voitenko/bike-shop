@@ -1,4 +1,4 @@
-<h1>Add new product</h1>
+<h1>Edit Product</h1>
 
 <form [formGroup]="form" class="form">
   <div class="form__parts">
@@ -17,6 +17,9 @@
               [fileLimit]="1"
               #fileUpload
             >
+              <ng-template pTemplate="content">
+                <img [src]="bike?.imgUrl" alt="" class="form__image-preview" *ngIf="!imageFile">
+              </ng-template>
             </p-fileUpload>
           </div>
         </div>
@@ -192,12 +195,14 @@
 
           <div class="form__elem form__elem--flex">
             <div class="form__input form__input--radio">
-              <input formControlName="new" type="radio" id="condition-new" value="new">
+              <input formControlName="new" type="radio" id="condition-new" value="new"
+                     [checked]="form.get('new')?.value === true">
               <label for="condition-new">New</label>
             </div>
 
             <div class="form__input form__input--radio">
-              <input formControlName="new" type="radio" id="condition-used" value="used">
+              <input formControlName="new" type="radio" id="condition-used" value="used"
+                     [checked]="form.get('new')?.value === false">
               <label for="condition-used">Used</label>
             </div>
           </div>
@@ -312,7 +317,7 @@
             (click)="onSubmit()"
             type="submit"
             [disabled]="form.invalid"
-          >Create</button>
+          >Edit</button>
         </div>
       </div>
     </div>

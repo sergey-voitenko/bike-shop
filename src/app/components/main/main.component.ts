@@ -3,7 +3,7 @@ import { BikesStoreService } from '../../services/bikes-store.service';
 import { Bike } from '../../interfaces/bike.interface';
 import {Observable, Subject} from 'rxjs';
 import {map, takeUntil} from 'rxjs/operators';
-import {AppService} from '../../app.service';
+import {CurrencyService} from '../../services/currency.service';
 
 @Component({
   selector: 'app-main',
@@ -13,17 +13,14 @@ import {AppService} from '../../app.service';
 export class MainComponent implements OnInit, OnDestroy{
   bikes$!: Observable<Bike[]>;
   destroyed$ = new Subject();
-  currency!: 'USD' | 'EUR' | 'GBP';
-  exchangeRate = 0;
 
   constructor(
     private bikesStoreService: BikesStoreService,
-    private appService: AppService
+    public currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {
     this.getBikes();
-    this.getCurrency();
   }
 
   ngOnDestroy(): void {
@@ -33,16 +30,5 @@ export class MainComponent implements OnInit, OnDestroy{
 
   private getBikes(): void {
     this.bikes$ = this.bikesStoreService.getBikes();
-  }
-
-  private getCurrency(): void {
-    this.appService.getCurrency().pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe(value => {
-      this.currency = value;
-      this.appService.getExchangeRate().pipe(
-        takeUntil(this.destroyed$)
-      ).subscribe(res => this.exchangeRate = res.rates[value]);
-    });
   }
 }
