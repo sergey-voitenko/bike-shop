@@ -4,8 +4,8 @@ import {Bike} from '../../interfaces/bike.interface';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {NewProductService} from './new-product.service';
 import {FileUpload} from 'primeng/fileupload';
-import {Observable, Subject} from 'rxjs';
-import {finalize, last, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {last, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
@@ -16,14 +16,13 @@ import {AngularFireStorage} from '@angular/fire/storage';
 export class NewProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   destroyed$ = new Subject();
-  downloadUrl!: Observable<string>;
   imageFile!: File;
   @ViewChild('fileUpload') fileUpload!: FileUpload;
 
   constructor(
-    private bikesStoreService: BikesStoreService,
-    private newProductService: NewProductService,
-    private storage: AngularFireStorage
+    public bikesStoreService: BikesStoreService,
+    public newProductService: NewProductService,
+    public storage: AngularFireStorage,
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +34,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  private initForm(): void {
+  initForm(): void {
     this.form = new FormGroup({
       image: new FormControl(''),
       name: new FormControl('', Validators.required),
@@ -58,18 +57,17 @@ export class NewProductComponent implements OnInit, OnDestroy {
     const task = this.storage.upload(filePath, this.imageFile);
 
     task.snapshotChanges().pipe(
-      takeUntil(this.destroyed$),
       last(),
       switchMap(() => fileRef.getDownloadURL()),
       tap((url) => this.form.get('image')?.setValue(url)),
-      switchMap(() => this.bikesStoreService.createBike(this.createNewBike()))
+      switchMap(() => this.bikesStoreService.createBike(this.createNewBike())),
+      takeUntil(this.destroyed$)
     ).subscribe(() => {
-      this.form.reset();
-      this.fileUpload.clear();
+      this.reset();
     });
   }
 
-  private createNewBike(): Bike {
+  createNewBike(): Bike {
     return {
       name: this.form.value.name,
       price: +this.form.value.price,
@@ -91,6 +89,18 @@ export class NewProductComponent implements OnInit, OnDestroy {
       array.push(new FormControl(value));
       element.value = '';
     }
+  }
+
+  reset(): void {
+    this.form.reset();
+    this.clearFormArray('color');
+    this.clearFormArray('size');
+    this.fileUpload.clear();
+  }
+
+  clearFormArray(name: string): void {
+    const array = this.form.get(name) as FormArray;
+    array.removeAt(0);
   }
 
   uploadHandler(event: any): void {

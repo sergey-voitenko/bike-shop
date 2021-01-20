@@ -20,7 +20,9 @@
       </div>
 
       <div class="product__price">
-        <div>{{bike?.discountedPrice | exchangeCurrency: exchangeRate | currency: currency}}</div>
+        <div>
+          {{bike?.discountedPrice| exchangeCurrency: currencyService.exchangeRate | currency: currencyService.currency}}
+        </div>
         <div><span class="product__stock">Availability:  <span>In stock</span></span></div>
       </div>
 
@@ -75,6 +77,24 @@
             [disabled]="!form.valid"
           >
             Add to card
+          </button>
+        </div>
+
+        <div class="product__button">
+          <button
+            type="submit"
+            [routerLink]="['/product/' + bike?.id + '/edit']"
+          >
+            Edit
+          </button>
+        </div>
+
+        <div class="product__button">
+          <button
+            type="submit"
+            (click)="onDelete()"
+          >
+            Delete
           </button>
         </div>
 

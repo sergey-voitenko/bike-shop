@@ -19,7 +19,9 @@ import {HttpClientModule} from '@angular/common/http';
       {
         path: '',
         component: NewProductComponent,
-        data: {breadcrumb: 'New Product'}
+        data: {
+          breadcrumb: 'New Product'
+        }
       }
     ]),
     ReactiveFormsModule,

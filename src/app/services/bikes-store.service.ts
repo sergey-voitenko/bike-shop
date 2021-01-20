@@ -27,6 +27,14 @@ export class BikesStoreService {
     return this.http.post<Bike>(`${BikesStoreService.url}/bikes.json`, bike);
   }
 
+  updateBike(bikeId: string, bike: Bike): Observable<Bike> {
+    return this.http.put<Bike>(`${BikesStoreService.url}/bikes/${bikeId}.json`, bike);
+  }
+
+  deleteBike(bikeId: string | undefined): Observable<Bike> {
+    return this.http.delete<Bike>(`${BikesStoreService.url}/bikes/${bikeId}.json`);
+  }
+
   getBikeById(id: string): Observable<Bike | undefined> {
     return this.getBikes().pipe(
       map(bikes => bikes.find(bike => bike.id === id))

@@ -5,8 +5,12 @@ import {HttpClient} from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class AppService {
+export class CurrencyService {
+  static currency: 'USD' | 'EUR' | 'GBP';
+  static exchangeRate: number;
   currency$ = new BehaviorSubject<'USD' | 'EUR' | 'GBP'>('USD');
+
+  constructor(private http: HttpClient) {}
 
   setCurrency(value: 'USD' | 'EUR' | 'GBP'): void {
     this.currency$.next(value);
@@ -20,5 +24,11 @@ export class AppService {
     return this.http.get('https://api.exchangeratesapi.io/latest?base=USD');
   }
 
-  constructor(private http: HttpClient) {}
+  get currency(): 'USD' | 'EUR' | 'GBP' {
+    return CurrencyService.currency;
+  }
+
+  get exchangeRate(): number {
+    return CurrencyService.exchangeRate;
+  }
 }
