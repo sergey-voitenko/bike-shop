@@ -192,12 +192,14 @@
 
           <div class="form__elem form__elem--flex">
             <div class="form__input form__input--radio">
-              <input formControlName="new" type="radio" id="condition-new" value="new">
+              <input formControlName="new" type="radio" id="condition-new" value="new"
+                     [checked]="form.get('new')?.value === true">
               <label for="condition-new">New</label>
             </div>
 
             <div class="form__input form__input--radio">
-              <input formControlName="new" type="radio" id="condition-used" value="used">
+              <input formControlName="new" type="radio" id="condition-used" value="used"
+                     [checked]="form.get('new')?.value === false">
               <label for="condition-used">Used</label>
             </div>
           </div>
@@ -237,7 +239,13 @@
               class="form__colors"
               *ngIf="form.get('color')!.value.length"
             >
-              <i>Colors you choose: <b>{{form.get('color')!.value}}</b></i>
+              <i>Colors you choose:</i>
+              <ul>
+                <li *ngFor="let color of form.get('color')!.value; let i = index">
+                  <b>{{color}}</b><button
+                  (click)="deleteFromFormArray('color', i)" class="form__delete">x</button>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -273,10 +281,16 @@
             </div>
 
             <div
-              class="form__colors"
+              class="form__sizes"
               *ngIf="form.get('size')!.value.length"
             >
-              <i>Sizes you choose: <b>{{form.get('size')!.value}}</b></i>
+              <i>Sizes you choose:</i>
+              <ul>
+                <li *ngFor="let size of form.get('size')!.value; let i = index">
+                  <b>{{size}}</b><button
+                  (click)="deleteFromFormArray('size', i)" class="form__delete">x</button>
+                </li>
+              </ul>
             </div>
           </div>
 

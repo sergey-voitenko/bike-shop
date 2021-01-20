@@ -237,7 +237,13 @@
               class="form__colors"
               *ngIf="form.get('color')!.value.length"
             >
-              <i>Colors you choose: <b>{{form.get('color')!.value}}</b></i>
+              <i>Colors you choose:</i>
+              <ul>
+                <li *ngFor="let color of form.get('color')!.value; let i = index">
+                  <b>{{color}}</b><button
+                  (click)="deleteFromFormArray('color', i)" class="form__delete">x</button>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -273,10 +279,16 @@
             </div>
 
             <div
-              class="form__colors"
+              class="form__sizes"
               *ngIf="form.get('size')!.value.length"
             >
-              <i>Sizes you choose: <b>{{form.get('size')!.value}}</b></i>
+              <i>Sizes you choose:</i>
+              <ul>
+                <li *ngFor="let size of form.get('size')!.value; let i = index">
+                  <b>{{size}}</b><button
+                  (click)="deleteFromFormArray('size', i)" class="form__delete">x</button>
+                </li>
+              </ul>
             </div>
           </div>
 

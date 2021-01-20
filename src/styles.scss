@@ -940,3 +940,36 @@ h1 {
   padding: 0 0 1rem !important;
   border: none !important;
 }
+
+.form__delete {
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  color: red;
+  margin-left: 10px;
+}
+
+.form__colors,
+.form__sizes {
+  ul {
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      position: relative;
+      padding-left: 15px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #000;
+        top: 7px;
+        left: 0;
+      }
+    }
+  }
+}

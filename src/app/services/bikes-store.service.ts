@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Bike } from '../interfaces/bike.interface';
-import { map } from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 
@@ -31,8 +31,8 @@ export class BikesStoreService {
     return this.http.put<Bike>(`${BikesStoreService.url}/bikes/${bikeId}.json`, bike);
   }
 
-  deleteBike(bikeId: string | undefined): Observable<Bike> {
-    return this.http.delete<Bike>(`${BikesStoreService.url}/bikes/${bikeId}.json`);
+  updateBikes(newBikesArray: Bike[]): Observable<any> {
+    return this.http.put(`${BikesStoreService.url}/bikes.json`, newBikesArray);
   }
 
   getBikeById(id: string): Observable<Bike | undefined> {
@@ -54,6 +54,13 @@ export class BikesStoreService {
         discountedPrice = bike.price - (bike.discount * bike.price / 100);
       }
 
+      const bikeDiscountUntilDate = new Date(bike.discountUntil);
+      const dateYear = bikeDiscountUntilDate.getFullYear();
+      const dateMonth = bikeDiscountUntilDate.getMonth() + 1;
+      const dateDay = bikeDiscountUntilDate.getDate();
+      bike.discountUntil = dateYear + '-';
+      bike.discountUntil += (dateMonth < 10 ? `0${dateMonth}` : dateMonth) + '-';
+      bike.discountUntil += (dateDay < 10 ? `0${dateDay}` : dateDay) + '';
       bike.discountedPrice = discountedPrice;
       bike.main = false;
       maxDiscount = bike.discount > maxDiscount ? bike.discount : maxDiscount;

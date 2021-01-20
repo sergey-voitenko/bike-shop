@@ -93,14 +93,14 @@ export class NewProductComponent implements OnInit, OnDestroy {
 
   reset(): void {
     this.form.reset();
-    this.clearFormArray('color');
-    this.clearFormArray('size');
+    this.deleteFromFormArray('color', 0);
+    this.deleteFromFormArray('size', 0);
     this.fileUpload.clear();
   }
 
-  clearFormArray(name: string): void {
+  deleteFromFormArray(name: string, index: number): void {
     const array = this.form.get(name) as FormArray;
-    array.removeAt(0);
+    array.removeAt(index);
   }
 
   uploadHandler(event: any): void {

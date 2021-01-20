@@ -4,7 +4,7 @@ import {BikesStoreService} from '../../services/bikes-store.service';
 import {Bike} from '../../interfaces/bike.interface';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {Order} from '../order/order.interface';
 import {OrderService} from '../order/order.service';
 import {CurrencyService} from '../../services/currency.service';
@@ -81,8 +81,15 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   onDelete(): void {
-    this.bikeStoreService.deleteBike(this.bike.id).subscribe((res) => {
-      this.router.navigate(['/']);
-    });
+    this.bikeStoreService.getBikes()
+      .pipe(
+        map(bikes => bikes.filter(bike => bike.id !== this.bike.id)),
+        switchMap(bikes => {
+          return this.bikeStoreService.updateBikes(bikes);
+        }),
+        takeUntil(this.destroyed$)
+      ).subscribe(() => {
+        this.router.navigate(['/']);
+      });
   }
 }
