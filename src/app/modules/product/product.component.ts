@@ -8,6 +8,8 @@ import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {Order} from '../order/order.interface';
 import {OrderService} from '../order/order.service';
 import {CurrencyService} from '../../services/currency.service';
+import {Role} from '../../models/role';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -20,6 +22,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   descriptionToggle = false;
   destroyed$ = new Subject();
+  Role = Role;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +30,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private bikeStoreService: BikesStoreService,
     private orderService: OrderService,
     public currencyService: CurrencyService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {

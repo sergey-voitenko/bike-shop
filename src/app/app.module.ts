@@ -21,6 +21,7 @@ import {environment} from '../environments/environment';
 import {ExchangeCurrencyPipe} from './pipes/exchange-currency.pipe';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     OrderSuccessComponent,
     ContactsSuccessComponent,
     ExchangeCurrencyPipe,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

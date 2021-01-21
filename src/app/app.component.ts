@@ -3,6 +3,8 @@ import {OrderService} from './modules/order/order.service';
 import {Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {CurrencyService} from './services/currency.service';
+import {AuthService} from './services/auth.service';
+import {Role} from './models/role';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,11 @@ import {CurrencyService} from './services/currency.service';
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private orderService: OrderService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    public authService: AuthService
   ) {}
+
+  Role = Role;
 
   ordersCount = 0;
   destroyed$ = new Subject();
@@ -21,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initOrdersCount();
     this.getCurrency();
+    console.log();
   }
 
   ngOnDestroy(): void {

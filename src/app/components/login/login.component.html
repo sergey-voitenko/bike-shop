@@ -1,0 +1,21 @@
+<form>
+<!--  <p class="form-content">-->
+<!--    <label for="username">Username / Email</label>-->
+<!--    <input type="text" name="username" id="username" value="">-->
+<!--  </p>-->
+<!--  <p class="form-content">-->
+<!--    <label for="password">Password</label>-->
+<!--    <input type="password" name="username" id="password" value="">-->
+<!--  </p>-->
+<!--  <p class="form-footer">-->
+<!--    <button type="submit" class="pull-right button_class">LOGIN</button>-->
+<!--  </p>-->
+<!--  <p class="form-text">-->
+<!--    Don't have an account? <a href="shop-register.html">Register Here</a>-->
+<!--  </p>-->
+  <div class="form-footer">
+    <div><button type="submit" class="pull-right button_class" (click)="login(Role.Customer)">CUSTOMER</button></div>
+    <div><button type="submit" class="pull-right button_class" (click)="login(Role.Admin)">ADMIN</button></div>
+    <div><button type="submit" class="pull-right button_class" (click)="login(Role.Owner)">OWNER</button></div>
+  </div>
+</form>

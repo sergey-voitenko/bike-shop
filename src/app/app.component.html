@@ -23,29 +23,16 @@
 
         <ul class="pull-right">
           <li><a href="">My Account</a></li>
-          <li><a href="">My Cart</a></li>
-          <li><a href="">Checkout</a></li>
-          <li class="tz-header-login">
-            <a href="#">Login</a>
+          <li><a href="" routerLink="order">My Cart</a></li>
+          <li class="tz-header-login" *ngIf="!authService.isAuthorized()">
+            <a href="" routerLink="login">Login</a>
 
             <div class="tz-login-form">
-              <form>
-                <p class="form-content">
-                  <label for="username">Username / Email</label>
-                  <input type="text" name="username" id="username" value="">
-                </p>
-                <p class="form-content">
-                  <label for="password">Password</label>
-                  <input type="password" name="username" id="password" value="">
-                </p>
-                <p class="form-footer">
-                  <button type="submit" class="pull-right button_class">LOGIN</button>
-                </p>
-                <p class="form-text">
-                  Don't have an account? <a href="shop-register.html">Register Here</a>
-                </p>
-              </form>
+              <app-login></app-login>
             </div>
+          </li>
+          <li class="tz-header-login" *ngIf="authService.isAuthorized()">
+            <a href="" (click)="authService.logout()">Logout</a>
           </li>
         </ul>
       </div>
@@ -76,7 +63,7 @@
             <li>
               <a href="" routerLink="contact" routerLinkActive="active">Contact</a>
             </li>
-            <li>
+            <li *ngIf="authService.hasRole(Role.Admin)">
               <a href="" routerLink="new-product" routerLinkActive="active">New Product</a>
             </li>
           </ul>
