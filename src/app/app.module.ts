@@ -21,12 +21,12 @@ import {environment} from '../environments/environment';
 import {ExchangeCurrencyPipe} from './pipes/exchange-currency.pipe';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
-import { LoginComponent } from './components/login/login.component';
+import {LoginComponent} from './components/login/login.component';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import { SignUpComponent } from './components/signup/sign-up.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { ModalComponent } from './components/modal/modal.component';
-import { RefDirective } from './directives/ref.directive';
+import {SignUpComponent} from './components/signup/sign-up.component';
+import {ProfileComponent} from './components/profile/profile.component';
+import {ModalComponent} from './components/modal/modal.component';
+import {RefDirective} from './directives/ref.directive';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 

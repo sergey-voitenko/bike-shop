@@ -2,8 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Modal} from './modal';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {trigger, state, style, transition, animate} from '@angular/animations';
-import {Subject} from 'rxjs';
+import {trigger, state, style, transition, animate, AnimationEvent} from '@angular/animations';
 
 @Component({
   selector: 'app-modal',
@@ -40,12 +39,12 @@ export class ModalComponent implements OnInit {
     this.authService.googleAuth().then(() => this.router.navigate(['/']));
   }
 
-  outAnimation(): void {
+  closeModal(): void {
     this.modalState = 'out';
   }
 
-  closeModal(): void {
-    if (this.modalState === 'out') {
+  test(event: AnimationEvent): void {
+    if (event.toState === 'out') {
       this.closeEvent.emit();
     }
   }

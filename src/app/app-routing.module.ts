@@ -47,6 +47,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
+        canActivate: [AppRoutingGuard],
         data: {
           breadcrumb: 'Profile',
           roles: [

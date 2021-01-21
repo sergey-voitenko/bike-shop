@@ -7,8 +7,8 @@ import {AuthService} from './services/auth.service';
 import {Role} from './models/role';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {ModalComponent} from "./components/modal/modal.component";
-import {RefDirective} from "./directives/ref.directive";
+import {ModalComponent} from './components/modal/modal.component';
+import {RefDirective} from './directives/ref.directive';
 
 @Component({
   selector: 'app-root',
