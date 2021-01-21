@@ -1579,7 +1579,7 @@ p {
   padding-left: 7px;
 }
 
-.tz-register h2 {
+.modal h2 {
   text-align: center;
   font-size: 40px;
   line-height: 40px;
@@ -1590,20 +1590,20 @@ p {
   letter-spacing: 1.5px;
 }
 
-.tz-register form {
+.modal form {
   width: 570px;
   margin: 47px auto 0;
 }
 
-.tz-register form .form-row {
+.modal form .form-row {
   padding: 9px 0;
 }
 
-.tz-register form .form-row label {
+.modal form .form-row label {
   text-transform: uppercase;
 }
 
-.tz-register form .form-row input[type='text'], .tz-register form .form-row input[type='password'] {
+.modal form .form-row input {
   width: 100%;
   height: 50px;
   border: 1px solid #e0e0e0;
@@ -1617,11 +1617,11 @@ p {
   outline: none;
 }
 
-.tz-register form .form-row {
+.modal form .form-row {
   padding: 9px 0;
 }
 
-.tz-register form .form-row button {
+.modal form .form-row button {
   background: #212121;
   color: #ffffff;
   text-transform: uppercase;
@@ -1644,12 +1644,12 @@ p {
   }
 }
 
-.tz-register form .form-row:after {
+.modal form .form-row:after {
   clear: both;
   display: table;
   content: '';
 }
 
-.tz-register form .form-row input[type='submit']:hover {
+.modal form .form-row button:not(:disabled):hover {
   background: #f44336;
 }

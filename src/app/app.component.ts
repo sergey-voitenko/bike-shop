@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrderService} from './modules/order/order.service';
 import {Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
@@ -7,6 +7,8 @@ import {AuthService} from './services/auth.service';
 import {Role} from './models/role';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {ModalComponent} from "./components/modal/modal.component";
+import {RefDirective} from "./directives/ref.directive";
 
 @Component({
   selector: 'app-root',
@@ -19,11 +21,11 @@ export class AppComponent implements OnInit, OnDestroy {
     public currencyService: CurrencyService,
     public authService: AuthService,
     private router: Router,
-    private firebaseAuth: AngularFireAuth
+    private firebaseAuth: AngularFireAuth,
+    private resolver: ComponentFactoryResolver
   ) {}
-
+  @ViewChild(RefDirective) refDirective!: RefDirective;
   Role = Role;
-
   ordersCount = 0;
   destroyed$ = new Subject();
 
@@ -85,6 +87,15 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         this.authService.setRole(Role.Customer);
       }
+    });
+  }
+
+  showModal(): void {
+    const modalFactory = this.resolver.resolveComponentFactory(ModalComponent);
+    this.refDirective.containerRef.clear();
+    const component = this.refDirective.containerRef.createComponent(modalFactory);
+    component.instance.closeEvent.subscribe(() => {
+      this.refDirective.containerRef.clear();
     });
   }
 }

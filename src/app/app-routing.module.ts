@@ -46,20 +46,6 @@ const routes: Routes = [
         loadChildren: () => import('src/app/modules/new-product/new-product.module').then(m => m.NewProductModule)
       },
       {
-        path: 'login',
-        data: {
-          breadcrumb: 'Login'
-        },
-        component: LoginComponent
-      },
-      {
-        path: 'signup',
-        data: {
-          breadcrumb: 'Sign Up'
-        },
-        component: SignUpComponent
-      },
-      {
         path: 'profile',
         data: {
           breadcrumb: 'Profile',
