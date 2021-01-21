@@ -33,16 +33,19 @@ export class AppRoutingGuard implements CanActivate {
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.authService.isAuthorized()) {
-      return false;
-    }
-
-    const roles = route.data && route.data.roles as Role[];
-    if (roles && !roles.some(r => this.authService.hasRole(r))) {
-      return false;
-    }
-
-    return true;
+    return this.authService.isAuthorized().pipe(
+      map(user => {
+        if (user) {
+          const roles = route.data && route.data.roles as Role[];
+          if (roles && !roles.some(r => this.authService.hasRole(r))) {
+            return false;
+          }
+          return true;
+        } else {
+          return false;
+        }
+      })
+    );
   }
 
 }
