@@ -14,10 +14,12 @@ export class LoginComponent {
     private authService: AuthService
   ) {}
 
-  Role = Role;
+  email = '';
+  password = '';
 
-  login(role: Role): void {
-    this.authService.login(role);
-    this.router.navigate(['/']);
+  login(): void {
+    this.authService.login(this.email, this.password).then((res) => {
+      this.router.navigate(['/']);
+    });
   }
 }

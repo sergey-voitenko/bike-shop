@@ -22,17 +22,17 @@
         </ul>
 
         <ul class="pull-right">
-          <li><a href="">My Account</a></li>
+          <li *ngIf="authService.isAuthorized() | async"><a href="" routerLink="profile">My Account</a></li>
           <li><a href="" routerLink="order">My Cart</a></li>
-          <li class="tz-header-login" *ngIf="!authService.isAuthorized()">
+          <li class="tz-header-login" *ngIf="!(authService.isAuthorized() | async)">
             <a href="" routerLink="login">Login</a>
 
             <div class="tz-login-form">
               <app-login></app-login>
             </div>
           </li>
-          <li class="tz-header-login" *ngIf="authService.isAuthorized()">
-            <a href="" (click)="authService.logout()">Logout</a>
+          <li class="tz-header-login" *ngIf="authService.isAuthorized() | async">
+            <a (click)="logout()">Logout</a>
           </li>
         </ul>
       </div>

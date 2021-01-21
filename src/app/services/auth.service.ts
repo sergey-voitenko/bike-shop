@@ -1,27 +1,48 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/user';
 import {Role} from '../models/role';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Observable} from 'rxjs';
+import firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private user: User | null | undefined;
+  private readonly user: User;
 
-  isAuthorized(): boolean {
-    return !!this.user;
+  constructor(private firebaseAuth: AngularFireAuth) {
+    this.user = {
+      authState: firebaseAuth.authState
+    };
+  }
+
+  signUp(email: string, password: string): Promise<any> {
+    return this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+  }
+
+  login(email: string, password: string): Promise<any> {
+    return this.firebaseAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  logout(): Promise<any> {
+    this.user.role = undefined;
+    return this.firebaseAuth.signOut();
+  }
+
+  isAuthorized(): Observable<firebase.User | null> {
+    return this.user.authState;
   }
 
   hasRole(role: Role): boolean {
-    return this.isAuthorized() && this.user?.role === role;
+    return this.user?.role === role;
   }
 
-  login(role: Role): void {
-    this.user = { role };
-    console.log(this.user.role);
+  getRole(): Role | undefined {
+    return this.user.role;
   }
 
-  logout(): void {
-    this.user = null;
+  setRole(role: Role): void {
+    this.user.role = role;
   }
 }
