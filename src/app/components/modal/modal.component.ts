@@ -43,7 +43,7 @@ export class ModalComponent implements OnInit {
     this.modalState = 'out';
   }
 
-  test(event: AnimationEvent): void {
+  captureDoneEvent(event: AnimationEvent): void {
     if (event.toState === 'out') {
       this.closeEvent.emit();
     }

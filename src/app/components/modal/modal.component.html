@@ -1,4 +1,4 @@
-<div class="modal" [@modal]="modalState" (@modal.done)="test($event)">
+<div class="modal" [@modal]="modalState" (@modal.done)="captureDoneEvent($event)">
   <div class="modal__wrapper">
     <div class="modal__fog" (click)="closeModal()"></div>
 
