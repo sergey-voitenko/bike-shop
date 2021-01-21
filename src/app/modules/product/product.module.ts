@@ -6,6 +6,8 @@ import {ProductEditComponent} from './edit/product-edit.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
 import {HttpClientModule} from '@angular/common/http';
+import {AppRoutingGuard} from "../../app-routing.guard";
+import {Role} from "../../models/role";
 
 @NgModule({
   declarations: [ProductEditComponent],
@@ -43,8 +45,13 @@ import {HttpClientModule} from '@angular/common/http';
               },
               {
                 path: 'edit',
+                canActivate: [AppRoutingGuard],
                 data: {
-                  breadcrumb: 'Edit'
+                  breadcrumb: 'Edit',
+                  roles: [
+                    Role.Admin,
+                    Role.Owner
+                  ]
                 },
                 component: ProductEditComponent
               }

@@ -21,6 +21,10 @@ import {environment} from '../environments/environment';
 import {ExchangeCurrencyPipe} from './pipes/exchange-currency.pipe';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { LoginComponent } from './components/login/login.component';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import { SignUpComponent } from './components/signup/sign-up.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -34,7 +38,10 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     OrderSuccessComponent,
     ContactsSuccessComponent,
     ExchangeCurrencyPipe,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    LoginComponent,
+    SignUpComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +56,8 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
     AngularFireStorageModule,
-    BreadcrumbModule
+    AngularFireAuthModule,
+    BreadcrumbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

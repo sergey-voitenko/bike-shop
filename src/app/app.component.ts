@@ -3,6 +3,10 @@ import {OrderService} from './modules/order/order.service';
 import {Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {CurrencyService} from './services/currency.service';
+import {AuthService} from './services/auth.service';
+import {Role} from './models/role';
+import {Router} from '@angular/router';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +16,13 @@ import {CurrencyService} from './services/currency.service';
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private orderService: OrderService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    public authService: AuthService,
+    private router: Router,
+    private firebaseAuth: AngularFireAuth
   ) {}
+
+  Role = Role;
 
   ordersCount = 0;
   destroyed$ = new Subject();
@@ -21,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initOrdersCount();
     this.getCurrency();
+    this.initUser();
   }
 
   ngOnDestroy(): void {
@@ -54,6 +64,27 @@ export class AppComponent implements OnInit, OnDestroy {
       takeUntil(this.destroyed$)
     ).subscribe(res => {
       CurrencyService.exchangeRate = res.rates[CurrencyService.currency];
+    });
+  }
+
+  logout(): void {
+    this.authService.logout().then(() => {
+      this.router.navigate(['/']);
+    });
+  }
+
+  initUser(): void {
+    this.firebaseAuth.authState.pipe(
+      switchMap(() => this.firebaseAuth.currentUser),
+      takeUntil(this.destroyed$)
+    ).subscribe((user) => {
+      if (user?.uid === '6CHsRwmWPggFKvlBHfgCp581rgo1') {
+        this.authService.setRole(Role.Admin);
+      } else if (user?.uid === 'l68mmj536CP4S6LdvASdFO3SZC93') {
+        this.authService.setRole(Role.Owner);
+      } else {
+        this.authService.setRole(Role.Customer);
+      }
     });
   }
 }

@@ -30,8 +30,9 @@
         class="product__description"
         *ngIf="!descriptionToggle; else descriptionFull"
       >
-        <span>{{bike?.description! | charLimitation: 150}}</span><span class="product__description-button"
-                                                                       (click)="descriptionToggle = true" *ngIf="bike ? bike.description.length > 150 : false"> (Read More)</span>
+        <span>{{bike?.description! | charLimitation: 150}}</span><span
+        class="product__description-button"
+        (click)="descriptionToggle = true" *ngIf="bike ? bike.description.length > 150 : false"> (Read More)</span>
       </div>
 
       <ng-template #descriptionFull>
@@ -80,7 +81,7 @@
           </button>
         </div>
 
-        <div class="product__button">
+        <div class="product__button" *ngIf="authService.hasRole(Role.Admin) || authService.hasRole(Role.Owner)">
           <button
             type="submit"
             [routerLink]="['/product/' + bike?.id + '/edit']"
@@ -89,7 +90,7 @@
           </button>
         </div>
 
-        <div class="product__button">
+        <div class="product__button" *ngIf="authService.hasRole(Role.Admin) || authService.hasRole(Role.Owner)">
           <button
             type="submit"
             (click)="onDelete()"
