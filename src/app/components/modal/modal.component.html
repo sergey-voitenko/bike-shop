@@ -1,0 +1,36 @@
+<div class="modal" [@modal]="modalState" (@modal.done)="captureDoneEvent($event)">
+  <div class="modal__wrapper">
+    <div class="modal__fog" (click)="closeModal()"></div>
+
+    <div class="modal__body">
+      <button class="modal__close" (click)="closeModal()"></button>
+
+      <div class="modal__header">
+        <div
+          class="modal__button"
+          (click)="visible = Modal.SignIn"
+          [class.active]="visible === Modal.SignIn"
+        >Sign in</div>
+        <div
+          class="modal__button"
+          (click)="visible = Modal.Register"
+          [class.active]="visible === Modal.Register"
+        >Register</div>
+      </div>
+
+      <div (click)="googleAuth()" class="modal__google">
+        <img src="../../../assets/images/google.png" alt="">
+      </div>
+
+      <div class="modal__parts">
+        <div class="modal__part" *ngIf="visible === Modal.SignIn">
+          <app-login></app-login>
+        </div>
+
+        <div class="modal__part" *ngIf="visible === Modal.Register">
+          <app-signup></app-signup>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

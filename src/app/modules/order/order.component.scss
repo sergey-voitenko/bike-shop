@@ -1,0 +1,90 @@
+.form {
+  max-width: 500px;
+
+  &__elem {
+    width: 100%;
+  }
+
+  dl {
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    dt {
+      font-weight: bold;
+    }
+
+    dd {
+      margin: 0 0 0 5px;
+    }
+  }
+
+  &__good {
+    padding: 20px;
+    cursor: pointer;
+
+    &s {
+      height: 400px;
+      overflow-y: auto;
+    }
+
+    &-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    &-image {
+      width: 80px;
+
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+
+    &-side {
+      &:first-child {
+        margin-right: 10px;
+      }
+
+      &s {
+        display: flex;
+      }
+    }
+  }
+}
+
+h3 {
+  margin-bottom: 10px;
+}
+
+.order {
+  &__item {
+    display: flex;
+    padding: 20px;
+    border: 1px dashed #000;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__side {
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+
+  &__image {
+    width: 200px;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+}

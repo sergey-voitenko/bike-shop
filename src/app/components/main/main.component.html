@@ -1,13 +1,16 @@
 <div class="cards">
   <div class="cards__sides">
-    <app-product
+    <app-card
       class="cards__item"
       *ngFor="let bike of bikes$ | async | sortByDiscount"
       [bike]="bike"
+      [currency]="currencyService.currency"
+      [exchangeRate]="currencyService.exchangeRate"
       [class.discount-70]="bike.discount >= 70"
       [class.discount-60]="bike.discount < 70 && bike.discount >= 60"
       [class.discount-50]="bike.discount < 60 && bike.discount >= 50"
       [class.cards__item--big]="bike.main"
-    ></app-product>
+      [routerLink]="['/product', bike.id]"
+    ></app-card>
   </div>
 </div>

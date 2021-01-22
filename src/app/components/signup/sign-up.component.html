@@ -1,0 +1,19 @@
+<form>
+  <p class="form-row form-row-wide">
+    <label>Email address</label>
+    <input type="text" class="input-text" name="username" value="" [(ngModel)]="email">
+  </p>
+  <p class="form-row form-row-wide">
+    <label>Password</label>
+    <input class="input-text" type="password" name="password" minlength="6" [(ngModel)]="password">
+  </p>
+
+  <p class="form-row">
+    <button
+      type="submit"
+      class="button"
+      (click)="signUp()"
+      [disabled]="email === '' || password === ''"
+    >Create an account</button>
+  </p>
+</form>

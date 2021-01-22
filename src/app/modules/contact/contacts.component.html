@@ -1,0 +1,147 @@
+<div class="contact">
+  <h1 class="title">Contact</h1>
+
+  <div class="contact__info">
+    <dl>
+      <dt>Location:</dt>
+      <dd>San Francisco, some street, 23</dd>
+    </dl>
+
+    <dl>
+      <dt>Phone:</dt>
+      <dd>+300 000 000 000</dd>
+    </dl>
+  </div>
+
+  <div class="map">
+    <agm-map
+      [latitude]="51"
+      [longitude]="8"
+      [zoom]="8"
+      [disableDefaultUI]="false"
+      [zoomControl]="false"
+      [style.width.%]="100"
+      [style.height.px]="300"
+    ></agm-map>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" class="form" #form="ngForm">
+    <div class="form__row">
+      <div class="form__control">
+        <div class="form__elem">
+          <div class="form__input">
+            <input
+              type="text"
+              placeholder="Name..."
+              name="name"
+              required
+              [(ngModel)]="nameField"
+              #name="ngModel"
+            >
+          </div>
+        </div>
+
+        <div
+          class="form__errors"
+          *ngIf="!name.valid && name.touched"
+        >
+          <div
+            class="form__error"
+            *ngIf="name.errors!.required"
+          >Required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__row">
+      <div class="form__control">
+        <div class="form__elem">
+          <div class="form__input">
+            <input
+              type="text"
+              placeholder="Surname..."
+              name="surname"
+              required
+              [(ngModel)]="surnameField"
+              #surname="ngModel"
+            >
+          </div>
+        </div>
+
+        <div
+          class="form__errors"
+          *ngIf="!surname.valid && surname.touched"
+        >
+          <div
+            class="form__error"
+            *ngIf="surname.errors!.required"
+          >Required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__row">
+      <div class="form__control">
+        <div class="form__elem">
+          <div class="form__input">
+            <input
+              type="text"
+              placeholder="E-mail..."
+              name="email"
+              required
+              [(ngModel)]="emailField"
+              #email="ngModel"
+            >
+          </div>
+        </div>
+
+        <div
+          class="form__errors"
+          *ngIf="!email.valid && email.touched"
+        >
+          <div
+            class="form__error"
+            *ngIf="email.errors!.required"
+          >Required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__row">
+      <div class="form__control">
+        <div class="form__elem">
+          <div class="form__textarea">
+            <textarea
+              placeholder="Description..."
+              name="description"
+              required
+              [(ngModel)]="descriptionField"
+              #description="ngModel"
+            ></textarea>
+          </div>
+        </div>
+
+        <div
+          class="form__errors"
+          *ngIf="!description.valid && description.touched"
+        >
+          <div
+            class="form__error"
+            *ngIf="description.errors!.required"
+          >Required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__row">
+      <div class="form__button">
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+        >Send</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<router-outlet></router-outlet>

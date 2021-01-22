@@ -1,70 +1,176 @@
-<header class="header">
-  <a routerLink="/">
-    <img src="assets/images/logo.svg" alt="">
-  </a>
-</header>
+<div class="page">
+  <header class="header">
+    <div class="container">
+      <div class="header-top">
+        <ul class="pull-left">
+          <li>
+            <a>
+              {{currencyService.currency}}
+              <span class="fa fa-angle-down tz-down"></span>
+            </a>
 
-<div class="container">
-  <nav class="panel panel--left">
-    <div class="panel__item">
-      <div class="menu">
-        <div class="menu__item">
-          <a routerLink="/" class="menu__link">Home</a>
-        </div>
+            <ul class="sub-menu">
+              <li><a (click)="setCurrency('EUR')">EUR</a></li>
+              <li><a (click)="setCurrency('USD')">USD</a></li>
+              <li><a (click)="setCurrency('GBP')">GBP</a></li>
+            </ul>
+          </li>
 
-        <div class="menu__item">
-          <a href="about.html" class="menu__link">About us</a>
-        </div>
+          <li>
+            <a href="" routerLink="/">Call us: (012) 3456 7890</a>
+          </li>
+        </ul>
 
-        <div class="menu__item">
-          <a
-            routerLink="/contacts"
-            class="menu__link">Contact</a>
-        </div>
+        <ul class="pull-right">
+          <li *ngIf="authService.isAuthorized() | async"><a href="" routerLink="profile">My Account</a></li>
+          <li><a href="" routerLink="order">My Cart</a></li>
+          <li class="tz-header-login" *ngIf="!(authService.isAuthorized() | async)">
+            <a (click)="showModal()">Login</a>
+            <ng-template appRef></ng-template>
+          </li>
+          <li class="tz-header-login" *ngIf="authService.isAuthorized() | async">
+            <a (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
 
-        <div class="menu__item">
-          <a href="registration.html" class="menu__link">Registration</a>
-        </div>
+      <div class="header-content">
+        <h3 class="tz-logo pull-left"><a href="" routerLink="/"><img src="../assets/images/logo.png" alt="home"></a></h3>
       </div>
     </div>
-  </nav>
+
+    <nav class="tz-menu-primary">
+      <div class="container">
+        <div class="tz-menu-inner">
+          <!--Main Menu-->
+          <ul class="tz-main-menu pull-left nav-collapse">
+            <li>
+              <a href="" [routerLink]=" ['./'] "
+                 routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">Home</a>
+            </li>
+<!--            <li>-->
+<!--              <a href="shop.html">-->
+<!--                category-->
+<!--                <span class="red-light">On sale!</span>-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="shop.html">Bikes</a>-->
+<!--            </li>-->
+            <li>
+              <a href="" routerLink="contact" routerLinkActive="active">Contact</a>
+            </li>
+            <li *ngIf="authService.hasRole(Role.Admin)">
+              <a href="" routerLink="new-product" routerLinkActive="active">New Product</a>
+            </li>
+          </ul>
+          <!--End Main menu-->
+
+          <!--Shop meta-->
+          <ul class="tz-ecommerce-meta pull-right">
+            <li class="tz-mini-cart">
+              <a href="shop-cart.html"><strong>{{ordersCount}}</strong>Cart : $199.00</a>
+
+              <!--Mini cart-->
+              <ul class="cart-inner">
+                <li class="mini-cart-content">
+                  <div class="mini-cart-img"><img src="images/product/product-cart1.png" alt="product search one"></div>
+                  <div class="mini-cart-ds">
+                    <h6><a href="single-product.html">Liv Race Day Short</a></h6>
+                    <span class="mini-cart-meta">
+                    <a href="single-product.html">$2650.00</a>
+                    <span class="mini-meta">
+                       <span class="mini-color">Color: <i class="orange"></i></span>
+                       <span class="mini-qty">Qty: 5</span>
+                    </span>
+                  </span>
+                  </div>
+                  <span class="mini-cart-delete"><img src="../assets/images/delete.png" alt="delete"></span>
+                </li>
+
+                <li class="mini-cart-content">
+                  <div class="mini-cart-img"><img src="images/product/product-cart2.png" alt="product search one"></div>
+                  <div class="mini-cart-ds">
+                    <h6><a href="single-product.html">City Pedals Sport</a></h6>
+                    <span class="mini-cart-meta">
+                    <a href="single-product.html">$2650.00</a>
+                    <span class="mini-meta">
+                       <span class="mini-color">Color: <i class="orange"></i></span>
+                       <span class="mini-qty">Qty: 5</span>
+                    </span>
+                  </span>
+                  </div>
+                  <span class="mini-cart-delete"><img src="../assets/images/delete.png" alt="delete"></span>
+                </li>
+                <li class="mini-cart-content">
+                  <div class="mini-cart-img"><img src="images/product/product-cart3.png" alt="product search one"></div>
+                  <div class="mini-cart-ds">
+                    <h6><a href="single-product.html">Gloss</a></h6>
+                    <span class="mini-cart-meta">
+                    <a href="single-product.html">$2650.00</a>
+                    <span class="mini-meta">
+                       <span class="mini-color">Color: <i class="orange"></i></span>
+                       <span class="mini-qty">Qty: 5</span>
+                    </span>
+                  </span>
+                  </div>
+                  <span class="mini-cart-delete"><img src="../assets/images/delete.png" alt="delete"></span>
+                </li>
+                <li class="mini-subtotal">
+                <span class="subtotal-content">
+                  Subtotal:
+                  <strong class="pull-right">$1,100.00</strong>
+                </span>
+                </li>
+                <li class="mini-footer">
+                  <a href="shop-cart.html" class="view-cart">View Cart</a>
+                  <a href="shop-checkout.html" class="check-out">Checkout</a>
+                </li>
+              </ul>
+              <!--End mini cart-->
+            </li>
+          </ul>
+          <!--End Shop meta-->
+
+          <!--navigation mobi-->
+          <button data-target=".nav-collapse" class="btn-navbar tz_icon_menu" type="button">
+            <i class="fa fa-bars"></i>
+          </button>
+          <!--End navigation mobi-->
+        </div>
+      </div>
+    </nav>
+  </header>
 
   <main class="main">
-    <router-outlet></router-outlet>
+    <div class="container">
+      <router-outlet>
+        <app-breadcrumbs></app-breadcrumbs>
+      </router-outlet>
+    </div>
   </main>
 
-  <aside class="panel panel--right">
-    <div class="panel__item">
-      <div class="autocomplete">
-        <label for="tags">Brands <span class="small">(Eddy Merckx, etc...)</span>: </label>
-        <input id="tags">
-      </div>
-    </div>
-
-    <div class="panel__item">
-      <div class="datepicker">
-        <div class="datepicker__row">
-          <div class="datepicker__label">
-            <label for="from">From </label>
+  <footer class="footer">
+    <div class="tz-copyright">
+      <div class="container">
+        <div class="row row--flex">
+          <div class="col-md-6 col-sm-6">
+            <p>Copyright © 2021 <a href="" routerLink="/">BikeSport</a>. All rights reserved.</p>
           </div>
 
-          <div class="datepicker__input">
-            <input type="text" id="from">
-          </div>
-        </div>
-
-        <div class="datepicker__row">
-          <div class="datepicker__label">
-            <label for="to">to </label>
-          </div>
-
-          <div class="datepicker__input">
-            <input type="text" id="to">
+          <div class="col-md-6 col-sm-6">
+            <div class="pull-right">
+            <span class="payments-method">
+                <a href="#"><img src="../assets/images/Visa.png" alt="visa"></a>
+                <a href="#"><img src="../assets/images/Intersection.png" alt="Intersection"></a>
+                <a href="#"><img src="../assets/images/ebay.png" alt="ebay"></a>
+                <a href="#"><img src="../assets/images/Amazon.png" alt="Amazon"></a>
+                <a href="#"><img src="../assets/images/Discover.png" alt="Discover"></a>
+            </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </aside>
+  </footer>
 </div>
-
-<footer class="footer">All rights reserved &#169; 2020</footer>

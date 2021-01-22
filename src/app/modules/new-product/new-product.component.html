@@ -1,0 +1,320 @@
+<h1>Add new product</h1>
+
+<form [formGroup]="form" class="form">
+  <div class="form__parts">
+    <div class="form__part">
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="name" class="form__label">Image</label>
+            <p-fileUpload
+              name="image"
+              accept="image/*"
+              [maxFileSize]="1000000"
+              [showUploadButton]="false"
+              (onSelect)="uploadHandler($event)"
+              (onClear)="clearHandler()"
+              [fileLimit]="1"
+              #fileUpload
+            >
+            </p-fileUpload>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="name" class="form__label">Name</label>
+
+            <div class="form__input">
+              <input formControlName="name" type="text" id="name">
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('name')!.invalid && form.get('name')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('name')!.errors!.required"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="price" class="form__label">Price</label>
+
+            <div class="form__input">
+              <input formControlName="price" type="text" id="price">
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('price')!.invalid && form.get('price')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('price')!.errors!.required"
+            >Required</div>
+
+            <div
+              class="form__error"
+              *ngIf="form.get('price')!.errors!.pattern"
+            >Invalid price</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="discount" class="form__label">Discount</label>
+
+            <div class="form__input">
+              <input formControlName="discount" type="text" id="discount">
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('discount')!.invalid && form.get('discount')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('discount')!.errors!.required"
+            >Required</div>
+
+            <div
+              class="form__error"
+              *ngIf="form.get('discount')!.errors!.pattern"
+            >Invalid price</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="shop" class="form__label">Shop</label>
+
+            <div class="form__input">
+              <input formControlName="shop" type="text" id="shop">
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('shop')!.invalid && form.get('shop')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('shop')!.errors!.required"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="description" class="form__label">Description</label>
+
+            <div class="form__input">
+              <input formControlName="description" type="text" id="description">
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('description')!.invalid && form.get('description')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('description')!.errors!.required"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="shipping" class="form__label">Shipping</label>
+
+            <div class="form__input">
+              <input formControlName="shipping" type="text" id="shipping">
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('shipping')!.invalid && form.get('shipping')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('shipping')!.errors!.required"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="discountUntil" class="form__label">Discount until</label>
+
+            <div class="form__input">
+              <input formControlName="discountUntil" type="date" id="discountUntil">
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('discountUntil')!.invalid && form.get('discountUntil')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('discountUntil')!.errors!.required"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__label">Condition</div>
+
+          <div class="form__elem form__elem--flex">
+            <div class="form__input form__input--radio">
+              <input formControlName="new" type="radio" id="condition-new" value="new">
+              <label for="condition-new">New</label>
+            </div>
+
+            <div class="form__input form__input--radio">
+              <input formControlName="new" type="radio" id="condition-used" value="used">
+              <label for="condition-used">Used</label>
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('new')!.invalid && form.get('new')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('new')!.errors!.required"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="color" class="form__label">Colors</label>
+
+            <div class="form__select mb10">
+              <select id="color" #colorSelect>
+                <option *ngFor="let color of getColors()" value="{{color}}">{{color}}</option>
+              </select>
+            </div>
+
+            <div class="form__button">
+              <button
+                type="button"
+                (click)="addToFormArray(colorSelect.value, this.form.get('color')!, colorSelect)">
+                Add color
+              </button>
+            </div>
+
+            <div
+              class="form__colors"
+              *ngIf="form.get('color')!.value.length"
+            >
+              <i>Colors you choose:</i>
+              <ul>
+                <li *ngFor="let color of form.get('color')!.value; let i = index">
+                  <b>{{color}}</b><button
+                  (click)="deleteFromFormArray('color', i)" class="form__delete">x</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('color')!.invalid"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('color')!.errors!.required"
+            >Need to add color(-s)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
+          <div class="form__elem">
+            <label for="size" class="form__label">Sizes</label>
+
+            <div class="form__select mb10">
+              <select id="size" #sizeSelect>
+                <option *ngFor="let size of getSizes()" value="{{size}}">{{size}}</option>
+              </select>
+            </div>
+
+            <div class="form__button">
+              <button
+                type="button"
+                (click)="addToFormArray(sizeSelect.value, this.form.get('size')!, sizeSelect)"
+              >Add size
+              </button>
+            </div>
+
+            <div
+              class="form__sizes"
+              *ngIf="form.get('size')!.value.length"
+            >
+              <i>Sizes you choose:</i>
+              <ul>
+                <li *ngFor="let size of form.get('size')!.value; let i = index">
+                  <b>{{size}}</b><button
+                  (click)="deleteFromFormArray('size', i)" class="form__delete">x</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('size')!.invalid"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('size')!.errors!.required"
+            >Need to add size(-s)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form__part">
+      <div class="form__row">
+        <div class="form__button">
+          <button
+            (click)="onSubmit()"
+            type="submit"
+            [disabled]="form.invalid"
+          >Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
