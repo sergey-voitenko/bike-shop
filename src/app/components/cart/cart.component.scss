@@ -1,0 +1,122 @@
+.shop_table {
+  width: 100%;
+  margin: 0 0 50px 0;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.shop_table tr {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.shop_table thead tr {
+  border-bottom: 2px solid #eeeeee;
+}
+
+.shop_table tbody tr:last-child {
+  border: 0;
+}
+
+.shop_table .product-remove {
+  width: 6%;
+  text-align: center;
+}
+
+.shop_table tr td {
+  padding: 20px 0;
+  font-weight: 300;
+}
+
+.shop_table tr th {
+  font-size: 19px;
+  font-weight: 700;
+  padding: 15px 0;
+  text-align: left;
+}
+
+.shop_table .product-thumbnail {
+  width: 100px;
+}
+
+.shop_table .product-price {
+  width: 16%;
+}
+
+.shop_table .product-quantity {
+  width: 16%;
+}
+
+.shop_table .product-subtotal {
+  width: 167px;
+}
+
+.shop_table .product-remove .remove {
+  background: url('../../../assets/images/delete.png') center center no-repeat;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.shop_table .product-thumbnail a {
+  display: block;
+  max-width: 80px;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.shop_table .product-name .color {
+  display: block;
+  margin-top: 15px;
+}
+
+.shop_table .product-price span,
+.shop_table .product-subtotal span {
+  color: #f44336;
+  font-weight: 400;
+}
+
+.shop_table .product-quantity input {
+  border: 1px solid #e0e0e0;
+  height: 45px;
+  width: 80px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  text-align: center;
+}
+
+.actions .back-shop {
+  line-height: 36px;
+  font-weight: 400;
+}
+
+.actions .update-cart {
+  float: right;
+  background: #212121;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 4px 30px 5px;
+  display: inline-block;
+  border: 0;
+  font-size: 16px;
+  line-height: 36px;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.actions .update-cart:hover {
+  background: #f44336;
+}
+
+.remove {
+  cursor: pointer;
+}

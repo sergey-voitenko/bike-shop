@@ -7,6 +7,7 @@ import {AppRoutingGuard} from './app-routing.guard';
 import {Role} from './models/role';
 import {SignUpComponent} from './components/signup/sign-up.component';
 import {ProfileComponent} from "./components/profile/profile.component";
+import {CartComponent} from "./components/cart/cart.component";
 
 const routes: Routes = [
   {
@@ -57,6 +58,19 @@ const routes: Routes = [
           ]
         },
         component: ProfileComponent
+      },
+      {
+        path: 'cart',
+        canActivate: [AppRoutingGuard],
+        data: {
+          breadcrumb: 'Cart',
+          roles: [
+            Role.Customer,
+            Role.Admin,
+            Role.Owner
+          ]
+        },
+        component: CartComponent
       },
       {
         path: '**',

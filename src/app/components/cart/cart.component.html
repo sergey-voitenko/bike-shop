@@ -1,0 +1,73 @@
+<h1 class="page-title">Shop Cart</h1>
+
+<form>
+  <table class="shop_table cart">
+    <thead>
+      <tr>
+        <th class="product-remove">&nbsp;</th>
+        <th class="product-thumbnail">Product</th>
+        <th class="product-name">&nbsp;</th>
+        <th class="product-price">Price</th>
+        <th class="product-quantity">Quantity</th>
+        <th class="product-subtotal">Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr class="cart_item" *ngFor="let order of orderService.getOrders() | async">
+        <td class="product-remove">
+          <a class="remove" (click)="orderService.removeOrder(order)" title="Remove this item"></a>
+        </td>
+
+        <td class="product-thumbnail">
+          <a href="" [routerLink]="['product', order.id]"><img src="{{order.imgUrl}}" alt=""></a>
+        </td>
+
+        <td class="product-name">
+          <a href="" [routerLink]="['product', order.id]">{{order.name}}</a>
+          <span class="color">
+            Color: {{order.color}} <!--<i class="orange"></i>-->
+          </span>
+          <div>
+            Size: {{order.size}}
+          </div>
+        </td>
+
+        <td class="product-price">
+          <span class="amount">
+            {{order.price | exchangeCurrency: currencyService.exchangeRate | currency: currencyService.currency}}
+          </span>
+        </td>
+
+        <td class="product-quantity">
+          <div class="quantity">
+            <input
+              type="number"
+              step="1"
+              min="0"
+              name="cart"
+              value="{{order.quantity}}"
+              title="Qty"
+              size="4"
+              class="input-text qty text"
+              >
+          </div>
+        </td>
+
+        <td class="product-subtotal">
+          <span class="amount">
+            {{(order.price * order.quantity)
+            | exchangeCurrency: currencyService.exchangeRate | currency: currencyService.currency}}
+          </span>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="actions" colspan="6">
+          <a class="back-shop" href="" [routerLink]="['/']">BACK TO SHOP</a>
+          <button class="update-cart" type="submit">update cart</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

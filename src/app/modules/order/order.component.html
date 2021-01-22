@@ -109,7 +109,7 @@
           <div class="form__button">
             <button
               (click)="decrementSteps()"
-              *ngIf="orderList.length === 0"
+              *ngIf="(orderService.getOrders() | async)?.length === 0"
             >Previous step</button>
           </div>
 
@@ -240,7 +240,7 @@
           <div class="order">
             <div
               class="order__item"
-              *ngFor="let order of orderList"
+              *ngFor="let order of (orderService.getOrders() | async)"
             >
               <div class="order__side">
                 <dl>
@@ -256,7 +256,11 @@
                 </dl>
 
                 <dl>
-                  <dt>Price: </dt><dd>{{order.price | currency: 'EUR'}}</dd>
+                  <dt>Price: </dt>
+                  <dd>
+                    {{order.price
+                    | exchangeCurrency: currencyService.exchangeRate | currency: currencyService.currency}}
+                  </dd>
                 </dl>
 
                 <dl>
@@ -271,7 +275,11 @@
               </div>
             </div>
 
-            <h4>Total: {{orderService.getTotalSum() | async | currency: 'EUR'}}</h4>
+            <h4>
+              Total:
+              {{orderService.getTotalSum() | async
+              | exchangeCurrency: currencyService.exchangeRate | currency: currencyService.currency}}
+            </h4>
           </div>
         </div>
       </div>

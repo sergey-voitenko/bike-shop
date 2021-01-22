@@ -23,7 +23,7 @@
 
         <ul class="pull-right">
           <li *ngIf="authService.isAuthorized() | async"><a href="" routerLink="profile">My Account</a></li>
-          <li><a href="" routerLink="order">My Cart</a></li>
+          <li><a href="" routerLink="cart">My Cart</a></li>
           <li class="tz-header-login" *ngIf="!(authService.isAuthorized() | async)">
             <a (click)="showModal()">Login</a>
             <ng-template appRef></ng-template>

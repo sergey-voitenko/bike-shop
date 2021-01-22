@@ -6,6 +6,7 @@ import {Bike} from '../../interfaces/bike.interface';
 import {BikesStoreService} from '../../services/bikes-store.service';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
+import {CurrencyService} from "../../services/currency.service";
 
 @Component({
   selector: 'app-order',
@@ -15,14 +16,14 @@ import {Router} from '@angular/router';
 export class OrderComponent implements OnInit {
   form!: FormGroup;
   currentStep = 1;
-  orderList!: Order[];
   bikes$!: Observable<Bike[]>;
 
   constructor(
     public orderService: OrderService,
     private bikesStoreService: BikesStoreService,
-    private router: Router) {
-  }
+    private router: Router,
+    public currencyService: CurrencyService
+  ) {}
 
   ngOnInit(): void {
     this.initCurrentStep();
@@ -35,8 +36,9 @@ export class OrderComponent implements OnInit {
   }
 
   private initCurrentStep(): void {
-    this.orderList = this.orderService.orderList;
-    this.currentStep = this.orderList.length > 0 ? 2 : 1;
+    this.orderService.getOrders().subscribe(orders => {
+      this.currentStep = orders.length > 0 ? 2 : 1;
+    });
   }
 
   private initForm(): void {

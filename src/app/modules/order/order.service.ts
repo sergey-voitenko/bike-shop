@@ -1,36 +1,30 @@
 import {Injectable} from '@angular/core';
 import {Order} from './order.interface';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {map, startWith, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
   private orders$: BehaviorSubject<Order[]> = new BehaviorSubject<Order[]>([]);
-  private _orderList: Order[] = [];
-
-  get orderList(): Order[] {
-    return this._orderList;
-  }
+  private orderList: Order[] = [];
 
   addOrder(order: Order): void {
     const isOrderExist = this.isOrderExist(order);
 
     if (isOrderExist) {
-      const sameOrder = this._orderList.find(orderItem => {
+      const sameOrder = this.orderList.find(orderItem => {
         return orderItem.id === order.id && orderItem.color === order.color && orderItem.size === order.size;
       });
       if (sameOrder !== undefined) {
         sameOrder.quantity += order.quantity;
       }
     } else {
-      this._orderList.push(order);
+      this.orderList.push(order);
     }
 
-    console.log('add order:', order);
-
-    this.orders$.next(this._orderList);
+    this.orders$.next(this.orderList);
   }
 
   getOrders(): Observable<Order[]> {
@@ -38,21 +32,21 @@ export class OrderService {
   }
 
   resetOrders(): void {
-    this._orderList = [];
+    this.orderList = [];
     this.orders$.next([]);
   }
 
   removeOrder(order: Order): void {
-    this._orderList = this._orderList.filter((orderItem) => {
+    this.orderList = this.orderList.filter((orderItem) => {
       return orderItem.id !== order.id || orderItem.color !== order.color || orderItem.size !== order.size;
     });
 
-    this.orders$.next(this._orderList);
+    this.orders$.next(this.orderList);
   }
 
   getNumberOfOrders(): Observable<number> {
     return this.getOrders().pipe(
-      startWith(this._orderList),
+      startWith(this.orderList),
       map(order => order.map(item => item.quantity)),
       map((orders) => {
         if (orders[0]) {
@@ -66,7 +60,7 @@ export class OrderService {
 
   getTotalSum(): Observable<number> {
     return this.getOrders().pipe(
-      startWith(this._orderList),
+      startWith(this.orderList),
       map(orders => orders.map(order => order.price * order.quantity)),
       map(orders => orders.reduce(((acc, val) => acc + val), 0))
     );
@@ -74,7 +68,7 @@ export class OrderService {
 
 
   private isOrderExist(order: Order): boolean {
-    for (const orderItem of this._orderList) {
+    for (const orderItem of this.orderList) {
       const orderId = orderItem.id;
       const orderColor = orderItem.color;
       const orderSize = orderItem.size;

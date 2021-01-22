@@ -1657,3 +1657,13 @@ p {
 .modal form .form-row button:not(:disabled):hover {
   background: #f44336;
 }
+
+.page-title {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 40px;
+  color: #212121;
+  padding: 0;
+  margin: 63px 0 38px;
+  text-transform: uppercase;
+}

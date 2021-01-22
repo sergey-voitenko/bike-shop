@@ -18,7 +18,6 @@ import {OrderSuccessComponent} from './modules/order/order-success/order-success
 import {ContactsSuccessComponent} from './modules/contact/contact-success/contacts-success.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {environment} from '../environments/environment';
-import {ExchangeCurrencyPipe} from './pipes/exchange-currency.pipe';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {LoginComponent} from './components/login/login.component';
@@ -28,7 +27,8 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {ModalComponent} from './components/modal/modal.component';
 import {RefDirective} from './directives/ref.directive';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MiniCartComponent } from './components/minicart/mini-cart.component';
+import {MiniCartComponent} from './components/minicart/mini-cart.component';
+import { CartComponent } from './components/cart/cart.component';
 
 
 @NgModule({
@@ -41,14 +41,14 @@ import { MiniCartComponent } from './components/minicart/mini-cart.component';
     ProductComponent,
     OrderSuccessComponent,
     ContactsSuccessComponent,
-    ExchangeCurrencyPipe,
     BreadcrumbsComponent,
     LoginComponent,
     SignUpComponent,
     ProfileComponent,
     ModalComponent,
     RefDirective,
-    MiniCartComponent
+    MiniCartComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +71,7 @@ import { MiniCartComponent } from './components/minicart/mini-cart.component';
   entryComponents: [
     ModalComponent
   ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -11,7 +11,7 @@
 
     <ul
       class="cart-inner"
-      [class.empty]="!((orderService.getOrders() | async).length)"
+      [class.empty]="!((orderService.getOrders() | async)?.length)"
     >
       <li
         class="mini-cart-content"
@@ -50,7 +50,7 @@
       </li>
 
       <li class="mini-footer">
-        <a href="shop-cart.html" class="view-cart">View Cart</a>
+        <a href="" [routerLink]="['cart']" class="view-cart">View Cart</a>
         <a href="" [routerLink]="['order']" class="check-out">Checkout</a>
       </li>
     </ul>
