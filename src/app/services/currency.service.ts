@@ -2,21 +2,27 @@ import { Injectable } from '@angular/core';
 import {Observable, BehaviorSubject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
+export enum Currency {
+  USD = 'USD',
+  EUR = 'EUR',
+  GBP = 'GBP'
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyService {
-  static currency: 'USD' | 'EUR' | 'GBP';
+  static currency: Currency;
   static exchangeRate: number;
-  currency$ = new BehaviorSubject<'USD' | 'EUR' | 'GBP'>('USD');
+  currency$ = new BehaviorSubject<Currency>(Currency.USD);
 
   constructor(private http: HttpClient) {}
 
-  setCurrency(value: 'USD' | 'EUR' | 'GBP'): void {
+  setCurrency(value: Currency): void {
     this.currency$.next(value);
   }
 
-  getCurrency(): Observable<'USD' | 'EUR' | 'GBP'> {
+  getCurrency(): Observable<Currency> {
     return this.currency$.asObservable();
   }
 
@@ -24,7 +30,7 @@ export class CurrencyService {
     return this.http.get('https://api.exchangeratesapi.io/latest?base=USD');
   }
 
-  get currency(): 'USD' | 'EUR' | 'GBP' {
+  get currency(): Currency {
     return CurrencyService.currency;
   }
 

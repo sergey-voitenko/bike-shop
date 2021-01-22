@@ -2,7 +2,7 @@ import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from 
 import {OrderService} from './modules/order/order.service';
 import {Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
-import {CurrencyService} from './services/currency.service';
+import {Currency, CurrencyService} from './services/currency.service';
 import {AuthService} from './services/auth.service';
 import {Role} from './models/role';
 import {Router} from '@angular/router';
@@ -26,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
   @ViewChild(RefDirective) refDirective!: RefDirective;
   Role = Role;
+  Currency = Currency;
   ordersCount = 0;
   destroyed$ = new Subject();
 
@@ -38,6 +39,25 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  setCurrency(currency: Currency): void {
+    this.currencyService.setCurrency(currency);
+  }
+
+  logout(): void {
+    this.authService.logout().then(() => {
+      this.router.navigate(['/']);
+    });
+  }
+
+  showModal(): void {
+    const modalFactory = this.resolver.resolveComponentFactory(ModalComponent);
+    this.refDirective.containerRef.clear();
+    const component = this.refDirective.containerRef.createComponent(modalFactory);
+    component.instance.closeEvent.subscribe(() => {
+      this.refDirective.containerRef.clear();
+    });
   }
 
   private initOrdersCount(): void {
@@ -53,29 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  setCurrency(currency: 'USD' | 'EUR' | 'GBP'): void {
-    this.currencyService.setCurrency(currency);
-  }
-
-  private getCurrency(): void {
-    this.currencyService.getCurrency().pipe(
-      switchMap((currency) => {
-        CurrencyService.currency = currency;
-        return this.currencyService.getExchangeRate();
-      }),
-      takeUntil(this.destroyed$)
-    ).subscribe(res => {
-      CurrencyService.exchangeRate = res.rates[CurrencyService.currency];
-    });
-  }
-
-  logout(): void {
-    this.authService.logout().then(() => {
-      this.router.navigate(['/']);
-    });
-  }
-
-  initUser(): void {
+  private initUser(): void {
     this.firebaseAuth.authState.pipe(
       switchMap(() => this.firebaseAuth.currentUser),
       takeUntil(this.destroyed$)
@@ -90,12 +88,15 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  showModal(): void {
-    const modalFactory = this.resolver.resolveComponentFactory(ModalComponent);
-    this.refDirective.containerRef.clear();
-    const component = this.refDirective.containerRef.createComponent(modalFactory);
-    component.instance.closeEvent.subscribe(() => {
-      this.refDirective.containerRef.clear();
+  private getCurrency(): void {
+    this.currencyService.getCurrency().pipe(
+      switchMap((currency) => {
+        CurrencyService.currency = currency;
+        return this.currencyService.getExchangeRate();
+      }),
+      takeUntil(this.destroyed$)
+    ).subscribe(res => {
+      CurrencyService.exchangeRate = res.rates[CurrencyService.currency];
     });
   }
 }

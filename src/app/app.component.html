@@ -10,9 +10,9 @@
             </a>
 
             <ul class="sub-menu">
-              <li><a (click)="setCurrency('EUR')">EUR</a></li>
-              <li><a (click)="setCurrency('USD')">USD</a></li>
-              <li><a (click)="setCurrency('GBP')">GBP</a></li>
+              <li><a (click)="setCurrency(Currency.EUR)">EUR</a></li>
+              <li><a (click)="setCurrency(Currency.USD)">USD</a></li>
+              <li><a (click)="setCurrency(Currency.GBP)">GBP</a></li>
             </ul>
           </li>
 
@@ -69,7 +69,7 @@
           <!--Shop meta-->
           <ul class="tz-ecommerce-meta pull-right">
             <li class="tz-mini-cart">
-              <a href="shop-cart.html"><strong>{{ordersCount}}</strong>Cart : $199.00</a>
+              <a href="" routerLink="order"><strong>{{ordersCount}}</strong>Cart : $199.00</a>
 
               <!--Mini cart-->
               <ul class="cart-inner">
