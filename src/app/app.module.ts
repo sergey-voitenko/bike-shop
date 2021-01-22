@@ -28,6 +28,7 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {ModalComponent} from './components/modal/modal.component';
 import {RefDirective} from './directives/ref.directive';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MiniCartComponent } from './components/minicart/mini-cart.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     SignUpComponent,
     ProfileComponent,
     ModalComponent,
-    RefDirective
+    RefDirective,
+    MiniCartComponent
   ],
   imports: [
     BrowserModule,

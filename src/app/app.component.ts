@@ -1,7 +1,7 @@
 import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrderService} from './modules/order/order.service';
 import {Subject} from 'rxjs';
-import {map, switchMap, takeUntil} from 'rxjs/operators';
+import {switchMap, takeUntil} from 'rxjs/operators';
 import {Currency, CurrencyService} from './services/currency.service';
 import {AuthService} from './services/auth.service';
 import {Role} from './models/role';
@@ -27,22 +27,16 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(RefDirective) refDirective!: RefDirective;
   Role = Role;
   Currency = Currency;
-  ordersCount = 0;
   destroyed$ = new Subject();
 
   ngOnInit(): void {
-    this.initOrdersCount();
-    this.getCurrency();
+    this.initCurrency();
     this.initUser();
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
-  }
-
-  setCurrency(currency: Currency): void {
-    this.currencyService.setCurrency(currency);
   }
 
   logout(): void {
@@ -57,19 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const component = this.refDirective.containerRef.createComponent(modalFactory);
     component.instance.closeEvent.subscribe(() => {
       this.refDirective.containerRef.clear();
-    });
-  }
-
-  private initOrdersCount(): void {
-    this.orderService.getOrders().pipe(
-      takeUntil(this.destroyed$),
-      map(order => order.map(item => item.quantity))
-    ).subscribe(orders => {
-      if (orders[0]) {
-        this.ordersCount = orders.reduce((acc, val) => acc + val);
-      } else {
-        this.ordersCount = 0;
-      }
     });
   }
 
@@ -88,7 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getCurrency(): void {
+  private initCurrency(): void {
     this.currencyService.getCurrency().pipe(
       switchMap((currency) => {
         CurrencyService.currency = currency;

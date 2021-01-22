@@ -1,0 +1,59 @@
+<div class="tz-ecommerce-meta pull-right">
+  <div class="tz-mini-cart">
+    <a href="" routerLink="order">
+      <strong>{{orderService.getNumberOfOrders() | async}}</strong>
+      <span>Cart : </span>
+      <span>
+      {{orderService.getTotalSum() | async | exchangeCurrency: currencyService.exchangeRate
+        | currency: currencyService.currency}}
+    </span>
+    </a>
+
+    <ul
+      class="cart-inner"
+      [class.empty]="!((orderService.getOrders() | async).length)"
+    >
+      <li
+        class="mini-cart-content"
+        *ngFor="let order of orderService.getOrders() | async; let i = index"
+      >
+        <div class="mini-cart-img">
+          <img src="{{order.imgUrl}}" alt="" [routerLink]="['product', order.id]">
+        </div>
+
+        <div class="mini-cart-ds">
+          <h6><a href="" [routerLink]="['product', order.id]">{{order.name}}</a></h6>
+          <span class="mini-cart-meta">
+            <a href="" [routerLink]="['product', order.id]">
+              {{order.price * order.quantity
+              | exchangeCurrency: currencyService.exchangeRate | currency: currencyService.currency}}
+            </a>
+            <span class="mini-item mini-color">Color: {{order.color}}<!--<i class="orange"></i>--></span>
+            <span class="mini-item mini-qty">Size: {{order.size}}</span>
+            <span class="mini-item mini-qty">Qty: {{order.quantity}}</span>
+          </span>
+        </div>
+
+        <span class="mini-cart-delete" (click)="orderService.removeOrder(order)">
+          <img src="../../../assets/images/delete.png" alt="">
+        </span>
+      </li>
+
+      <li class="mini-subtotal">
+        <span class="subtotal-content">
+          Subtotal:
+          <strong class="pull-right">
+            {{orderService.getTotalSum() | async | exchangeCurrency: currencyService.exchangeRate
+            | currency: currencyService.currency}}
+          </strong>
+        </span>
+      </li>
+
+      <li class="mini-footer">
+        <a href="shop-cart.html" class="view-cart">View Cart</a>
+        <a href="" [routerLink]="['order']" class="check-out">Checkout</a>
+      </li>
+    </ul>
+  </div>
+</div>
+

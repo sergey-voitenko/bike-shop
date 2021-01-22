@@ -271,7 +271,7 @@
               </div>
             </div>
 
-            <h4>Total: {{sum | currency: 'EUR'}}</h4>
+            <h4>Total: {{orderService.getTotalSum() | async | currency: 'EUR'}}</h4>
           </div>
         </div>
       </div>

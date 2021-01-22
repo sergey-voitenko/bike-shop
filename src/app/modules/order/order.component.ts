@@ -17,10 +17,9 @@ export class OrderComponent implements OnInit {
   currentStep = 1;
   orderList!: Order[];
   bikes$!: Observable<Bike[]>;
-  sum = 0;
 
   constructor(
-    private orderService: OrderService,
+    public orderService: OrderService,
     private bikesStoreService: BikesStoreService,
     private router: Router) {
   }
@@ -28,7 +27,6 @@ export class OrderComponent implements OnInit {
   ngOnInit(): void {
     this.initCurrentStep();
     this.initBikes();
-    this.calculateSum();
     this.initForm();
   }
 
@@ -64,12 +62,6 @@ export class OrderComponent implements OnInit {
 
   decrementSteps(): void {
     this.currentStep--;
-  }
-
-  private calculateSum(): void {
-    for (const order of this.orderList) {
-      this.sum += order.price * order.quantity;
-    }
   }
 
   order(): void {
