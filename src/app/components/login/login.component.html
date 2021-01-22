@@ -1,21 +1,19 @@
 <form>
-  <p class="form-content">
-    <label for="username">Email</label>
-    <input type="text" [(ngModel)]="email" name="username" id="username" value="">
+  <p class="form-row form-row-wide">
+    <label>Email address</label>
+    <input type="text" class="input-text" name="username" value="" [(ngModel)]="email">
   </p>
-  <p class="form-content">
-    <label for="password">Password</label>
-    <input type="password" [(ngModel)]="password" name="username" id="password" value="">
+  <p class="form-row form-row-wide">
+    <label>Password</label>
+    <input class="input-text" type="password" name="password" minlength="6" [(ngModel)]="password">
   </p>
-  <p class="form-footer">
+
+  <p class="form-row">
     <button
       type="submit"
-      class="pull-right button_class"
+      class="button"
       (click)="login()"
       [disabled]="email === '' || password === ''"
-    >LOGIN</button>
-  </p>
-  <p class="form-text">
-    Don't have an account? <a href="" routerLink="signup">Register Here</a>
+    >SIGN IN</button>
   </p>
 </form>

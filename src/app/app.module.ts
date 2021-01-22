@@ -21,10 +21,13 @@ import {environment} from '../environments/environment';
 import {ExchangeCurrencyPipe} from './pipes/exchange-currency.pipe';
 import {BreadcrumbsComponent} from './components/breadcrumbs/breadcrumbs.component';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
-import { LoginComponent } from './components/login/login.component';
+import {LoginComponent} from './components/login/login.component';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import { SignUpComponent } from './components/signup/sign-up.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import {SignUpComponent} from './components/signup/sign-up.component';
+import {ProfileComponent} from './components/profile/profile.component';
+import {ModalComponent} from './components/modal/modal.component';
+import {RefDirective} from './directives/ref.directive';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -41,7 +44,9 @@ import { ProfileComponent } from './components/profile/profile.component';
     BreadcrumbsComponent,
     LoginComponent,
     SignUpComponent,
-    ProfileComponent
+    ProfileComponent,
+    ModalComponent,
+    RefDirective
   ],
   imports: [
     BrowserModule,
@@ -58,8 +63,12 @@ import { ProfileComponent } from './components/profile/profile.component';
     AngularFireStorageModule,
     AngularFireAuthModule,
     BreadcrumbModule,
+    BrowserAnimationsModule
   ],
   providers: [],
+  entryComponents: [
+    ModalComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

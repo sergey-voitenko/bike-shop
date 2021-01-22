@@ -4,6 +4,8 @@ import {Role} from '../models/role';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Observable} from 'rxjs';
 import firebase from 'firebase';
+import auth = firebase.auth;
+import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,14 @@ export class AuthService {
   logout(): Promise<any> {
     this.user.role = undefined;
     return this.firebaseAuth.signOut();
+  }
+
+  googleAuth(): Promise<any> {
+    return this.googleAuthLogin(new auth.GoogleAuthProvider());
+  }
+
+  googleAuthLogin(provider: GoogleAuthProvider): Promise<any> {
+    return this.firebaseAuth.signInWithPopup(provider);
   }
 
   isAuthorized(): Observable<firebase.User | null> {

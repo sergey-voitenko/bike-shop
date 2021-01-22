@@ -25,11 +25,8 @@
           <li *ngIf="authService.isAuthorized() | async"><a href="" routerLink="profile">My Account</a></li>
           <li><a href="" routerLink="order">My Cart</a></li>
           <li class="tz-header-login" *ngIf="!(authService.isAuthorized() | async)">
-            <a href="" routerLink="login">Login</a>
-
-            <div class="tz-login-form">
-              <app-login></app-login>
-            </div>
+            <a (click)="showModal()">Login</a>
+            <ng-template appRef></ng-template>
           </li>
           <li class="tz-header-login" *ngIf="authService.isAuthorized() | async">
             <a (click)="logout()">Logout</a>
