@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Bike} from '../../interfaces/bike.interface';
-import {BikesStoreService} from '../../services/bikes-store.service';
+import {Bike} from '../../../interfaces/bike.interface';
+import {BikesStoreService} from '../../../services/bikes-store.service';
 import {NewProductService} from './new-product.service';
 import {FileUpload} from 'primeng/fileupload';
 import {Subject} from 'rxjs';

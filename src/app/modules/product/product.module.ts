@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {ProductComponent} from './product.component';
-import {ProductEditComponent} from './edit/product-edit.component';
+import {EditProductComponent} from './edit-product/edit-product.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
 import {HttpClientModule} from '@angular/common/http';
@@ -10,7 +10,7 @@ import {AuthGuard} from "../../guards/auth-guard.service";
 import {Role} from "../../models/role";
 
 @NgModule({
-  declarations: [ProductEditComponent],
+  declarations: [EditProductComponent],
   imports: [
     SharedModule,
     FormsModule,
@@ -53,7 +53,7 @@ import {Role} from "../../models/role";
                     Role.Owner
                   ]
                 },
-                component: ProductEditComponent
+                component: EditProductComponent
               }
             ]
           }

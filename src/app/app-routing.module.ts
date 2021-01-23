@@ -43,7 +43,7 @@ const routes: Routes = [
             Role.Admin
           ]
         },
-        loadChildren: () => import('src/app/modules/new-product/new-product.module').then(m => m.NewProductModule)
+        loadChildren: () => import('src/app/modules/product/new-product/new-product.module').then(m => m.NewProductModule)
       },
       {
         path: 'profile',

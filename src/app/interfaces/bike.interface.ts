@@ -14,6 +14,7 @@ export interface Bike {
   color: string[];
   size: string[];
   review?: IReview[];
+  availability?: boolean;
 }
 
 export interface IReview {

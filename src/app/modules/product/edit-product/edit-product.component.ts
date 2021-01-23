@@ -1,21 +1,20 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {NewProductComponent} from '../../new-product/new-product.component';
+import {NewProductComponent} from '../new-product/new-product.component';
 import {BikesStoreService} from '../../../services/bikes-store.service';
-import {NewProductService} from '../../new-product/new-product.service';
+import {NewProductService} from '../new-product/new-product.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {last, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {FileUpload} from 'primeng/fileupload';
 import {Bike} from '../../../interfaces/bike.interface';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {EMPTY} from "rxjs";
 
 @Component({
   selector: 'app-edit',
-  templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.scss']
+  templateUrl: './edit-product.component.html',
+  styleUrls: ['./edit-product.component.scss']
 })
-export class ProductEditComponent extends NewProductComponent implements OnInit {
+export class EditProductComponent extends NewProductComponent implements OnInit {
   constructor(
     private router: Router,
     bikesStoreService: BikesStoreService,
