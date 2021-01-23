@@ -6,7 +6,7 @@ import {ProductEditComponent} from './edit/product-edit.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
 import {HttpClientModule} from '@angular/common/http';
-import {AppRoutingGuard} from "../../app-routing.guard";
+import {AuthGuard} from "../../guards/auth-guard.service";
 import {Role} from "../../models/role";
 
 @NgModule({
@@ -45,7 +45,7 @@ import {Role} from "../../models/role";
               },
               {
                 path: 'edit',
-                canActivate: [AppRoutingGuard],
+                canActivate: [AuthGuard],
                 data: {
                   breadcrumb: 'Edit',
                   roles: [

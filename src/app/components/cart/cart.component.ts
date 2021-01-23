@@ -9,8 +9,8 @@ import {CurrencyService} from '../../services/currency.service';
 })
 export class CartComponent implements OnInit {
   constructor(
-    private orderService: OrderService,
-    private currencyService: CurrencyService
+    public orderService: OrderService,
+    public currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {

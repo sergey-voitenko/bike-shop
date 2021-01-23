@@ -2,12 +2,11 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from './components/main/main.component';
 import {NotfoundComponent} from './components/notfound/notfound.component';
-import {LoginComponent} from './components/login/login.component';
-import {AppRoutingGuard} from './app-routing.guard';
+import {AuthGuard} from './guards/auth-guard.service';
 import {Role} from './models/role';
-import {SignUpComponent} from './components/signup/sign-up.component';
-import {ProfileComponent} from "./components/profile/profile.component";
-import {CartComponent} from "./components/cart/cart.component";
+import {ProfileComponent} from './components/profile/profile.component';
+import {CartComponent} from './components/cart/cart.component';
+import {CartGuard} from "./guards/cart-guard.service";
 
 const routes: Routes = [
   {
@@ -26,7 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'order',
-        canActivate: [AppRoutingGuard],
+        canActivate: [AuthGuard],
         data: {
           roles: [
             Role.Customer,
@@ -38,7 +37,7 @@ const routes: Routes = [
       },
       {
         path: 'new-product',
-        canActivate: [AppRoutingGuard],
+        canActivate: [AuthGuard],
         data: {
           roles: [
             Role.Admin
@@ -48,7 +47,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
-        canActivate: [AppRoutingGuard],
+        canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Profile',
           roles: [
@@ -61,7 +60,7 @@ const routes: Routes = [
       },
       {
         path: 'cart',
-        canActivate: [AppRoutingGuard],
+        canActivate: [AuthGuard, CartGuard],
         data: {
           breadcrumb: 'Cart',
           roles: [
