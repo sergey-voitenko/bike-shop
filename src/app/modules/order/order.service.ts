@@ -32,6 +32,7 @@ export class OrderService {
 
   resetOrders(): void {
     this.orderList = [];
+    this.updateLocalStorage();
     this.orders$.next([]);
   }
 
