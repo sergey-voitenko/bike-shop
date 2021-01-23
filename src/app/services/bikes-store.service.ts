@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Bike } from '../interfaces/bike.interface';
-import {map, switchMap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {AngularFireStorage} from '@angular/fire/storage';

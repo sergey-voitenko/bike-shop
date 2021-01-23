@@ -60,7 +60,7 @@ const routes: Routes = [
       },
       {
         path: 'cart',
-        canActivate: [AuthGuard, CartGuard],
+        canActivate: [CartGuard, AuthGuard],
         data: {
           breadcrumb: 'Cart',
           roles: [

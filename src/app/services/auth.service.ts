@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import firebase from 'firebase';
 import auth = firebase.auth;
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+import {map, switchMap, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +55,20 @@ export class AuthService {
 
   setRole(role: Role): void {
     this.user.role = role;
+  }
+
+  initCurrentUserRole(): Observable<firebase.User | null> {
+    return this.firebaseAuth.authState.pipe(
+      switchMap(() => this.firebaseAuth.currentUser),
+      tap(user => {
+        if (user?.uid === '6CHsRwmWPggFKvlBHfgCp581rgo1') {
+          this.setRole(Role.Admin);
+        } else if (user?.uid === 'l68mmj536CP4S6LdvASdFO3SZC93') {
+          this.setRole(Role.Owner);
+        } else {
+          this.setRole(Role.Customer);
+        }
+      })
+    );
   }
 }

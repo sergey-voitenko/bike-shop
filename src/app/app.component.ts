@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initCurrency();
-    this.initUser();
+    this.authService.initCurrentUserRole().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -51,21 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const component = this.refDirective.containerRef.createComponent(modalFactory);
     component.instance.closeEvent.subscribe(() => {
       this.refDirective.containerRef.clear();
-    });
-  }
-
-  private initUser(): void {
-    this.firebaseAuth.authState.pipe(
-      switchMap(() => this.firebaseAuth.currentUser),
-      takeUntil(this.destroyed$)
-    ).subscribe((user) => {
-      if (user?.uid === '6CHsRwmWPggFKvlBHfgCp581rgo1') {
-        this.authService.setRole(Role.Admin);
-      } else if (user?.uid === 'l68mmj536CP4S6LdvASdFO3SZC93') {
-        this.authService.setRole(Role.Owner);
-      } else {
-        this.authService.setRole(Role.Customer);
-      }
     });
   }
 

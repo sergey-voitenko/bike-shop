@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Order} from './order.interface';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {map, startWith, tap} from 'rxjs/operators';
+import {map, startWith} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private orders$: BehaviorSubject<Order[]> = new BehaviorSubject<Order[]>([]);
-  private orderList: Order[] = [];
+  private orderList: Order[] = JSON.parse(localStorage.getItem('orders') as string);
+  private orders$: BehaviorSubject<Order[]> = new BehaviorSubject<Order[]>(this.orderList);
 
   addOrder(order: Order): void {
     const isOrderExist = this.isOrderExist(order);
@@ -22,6 +22,7 @@ export class OrderService {
       this.orderList.push(order);
     }
 
+    this.updateLocalStorage();
     this.orders$.next(this.orderList);
   }
 
@@ -35,10 +36,12 @@ export class OrderService {
   }
 
   removeOrder(order: Order): void {
-    this.orderList = this.orderList.filter((orderItem) => {
-      return orderItem.id !== order.id || orderItem.color !== order.color || orderItem.size !== order.size;
-    });
+    this.orderList = (JSON.parse(localStorage.getItem('orders') as string) as Order[])
+      .filter((orderItem) => {
+        return orderItem.id !== order.id || orderItem.color !== order.color || orderItem.size !== order.size;
+      });
 
+    this.updateLocalStorage();
     this.orders$.next(this.orderList);
   }
 
@@ -92,6 +95,11 @@ export class OrderService {
       }
     }
 
+    this.updateLocalStorage();
     this.orders$.next(this.orderList);
+  }
+
+  updateLocalStorage(): void {
+    localStorage.setItem('orders', JSON.stringify(this.orderList));
   }
 }
