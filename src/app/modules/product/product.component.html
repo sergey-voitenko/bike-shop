@@ -23,7 +23,11 @@
         <div>
           {{bike?.discountedPrice | exchangeCurrency: currencyService.exchangeRate | currency: currencyService.currency}}
         </div>
-        <div><span class="product__stock">Availability:  <span>In stock</span></span></div>
+        <div>
+          <span class="product__stock">
+            Availability: <span>{{bike?.availability ? 'In stock' : 'Out of stock'}}</span>
+          </span>
+        </div>
       </div>
 
       <div

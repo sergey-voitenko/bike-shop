@@ -221,6 +221,36 @@
 
       <div class="form__row">
         <div class="form__control">
+          <div class="form__label">Availability</div>
+
+          <div class="form__elem form__elem--flex">
+            <div class="form__input form__input--radio">
+              <input formControlName="availability" type="radio" id="availability-true" value="true"
+                     [checked]="form.get('availability')?.value === true">
+              <label for="availability-true">In stock</label>
+            </div>
+
+            <div class="form__input form__input--radio">
+              <input formControlName="availability" type="radio" id="availability-false" value="false"
+                     [checked]="form.get('availability')?.value === false">
+              <label for="availability-false">Out of stock</label>
+            </div>
+          </div>
+
+          <div
+            class="form__errors"
+            *ngIf="form.get('availability')!.invalid && form.get('availability')!.touched"
+          >
+            <div
+              class="form__error"
+              *ngIf="form.get('availability')!.errors!.required"
+            >Required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__control">
           <div class="form__elem">
             <label for="color" class="form__label">Colors</label>
 

@@ -45,6 +45,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
       shipping: new FormControl(''),
       discountUntil: new FormControl('', Validators.required),
       new: new FormControl('', Validators.required),
+      availability: new FormControl('', Validators.required),
       color: new FormArray([], Validators.required),
       size: new FormArray([], Validators.required),
     });
@@ -77,6 +78,7 @@ export class NewProductComponent implements OnInit, OnDestroy {
       shipping: this.form.value.shipping,
       discountUntil: this.form.value.discountUntil,
       new: this.form.value.new === 'new',
+      availability: this.form.value.availability === 'true',
       color: this.form.value.color,
       size: this.form.value.size,
       imgUrl: this.form.value.image,

@@ -90,10 +90,9 @@ export class EditProductComponent extends NewProductComponent implements OnInit 
     this.form.get('shipping')?.setValue(this.bike.shipping);
     this.form.get('discountUntil')?.setValue(this.bike.discountUntil);
     this.form.get('new')?.setValue(this.bike.new);
+    this.form.get('availability')?.setValue(this.bike.availability ? this.bike.availability : false);
     this.setFormArray(this.form.get('color') as FormArray, this.bike.color);
     this.setFormArray(this.form.get('size') as FormArray, this.bike.size);
-
-    console.log(this.form);
   }
 
   setFormArray(formArray: FormArray, sourceArray: string[]): void {
