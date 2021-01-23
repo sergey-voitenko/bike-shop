@@ -25,7 +25,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {SignUpComponent} from './components/signup/sign-up.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {ModalComponent} from './components/modal/modal.component';
-import {RefDirective} from './directives/ref.directive';
+import {ModalRefDirective} from './directives/modal-ref.directive';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MiniCartComponent} from './components/minicart/mini-cart.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -46,7 +46,7 @@ import { CartComponent } from './components/cart/cart.component';
     SignUpComponent,
     ProfileComponent,
     ModalComponent,
-    RefDirective,
+    ModalRefDirective,
     MiniCartComponent,
     CartComponent
   ],

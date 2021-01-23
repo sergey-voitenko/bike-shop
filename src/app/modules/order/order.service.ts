@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Order} from './order.interface';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,7 @@ export class OrderService {
     const isOrderExist = this.isOrderExist(order);
 
     if (isOrderExist) {
-      const sameOrder = this.orderList.find(orderItem => {
-        return orderItem.id === order.id && orderItem.color === order.color && orderItem.size === order.size;
-      });
+      const sameOrder = this.getSameOrder(order);
       if (sameOrder !== undefined) {
         sameOrder.quantity += order.quantity;
       }
@@ -66,7 +64,6 @@ export class OrderService {
     );
   }
 
-
   private isOrderExist(order: Order): boolean {
     for (const orderItem of this.orderList) {
       const orderId = orderItem.id;
@@ -78,5 +75,23 @@ export class OrderService {
       }
     }
     return false;
+  }
+
+  private getSameOrder(order: Order): Order | undefined {
+    return this.orderList.find(orderItem => {
+      return orderItem.id === order.id && orderItem.color === order.color && orderItem.size === order.size;
+    });
+  }
+
+  updateOrders(quantities: number[]): void {
+    for (let i = 0; i < this.orderList.length; i++) {
+      if (quantities[i] <= 0) {
+        this.removeOrder(this.orderList[i]);
+      } else  {
+        this.orderList[i].quantity = quantities[i];
+      }
+    }
+
+    this.orders$.next(this.orderList);
   }
 }

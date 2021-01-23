@@ -8,7 +8,7 @@ import {Role} from './models/role';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {ModalComponent} from './components/modal/modal.component';
-import {RefDirective} from './directives/ref.directive';
+import {ModalRefDirective} from './directives/modal-ref.directive';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private firebaseAuth: AngularFireAuth,
     private resolver: ComponentFactoryResolver
   ) {}
-  @ViewChild(RefDirective) refDirective!: RefDirective;
+  @ViewChild(ModalRefDirective) refDirective!: ModalRefDirective;
   Role = Role;
   Currency = Currency;
   destroyed$ = new Subject();

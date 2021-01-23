@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, ViewChildren} from '@angular/core';
 import {OrderService} from '../../modules/order/order.service';
 import {CurrencyService} from '../../services/currency.service';
 
@@ -7,13 +7,16 @@ import {CurrencyService} from '../../services/currency.service';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
+export class CartComponent {
   constructor(
     public orderService: OrderService,
     public currencyService: CurrencyService
   ) {}
 
-  ngOnInit(): void {
-  }
+  @ViewChildren('quantityInput') quantityInputs!: ElementRef[];
 
+  updateOrders(): void {
+    const inputValues = this.quantityInputs.map(input => +input.nativeElement.value);
+    this.orderService.updateOrders(inputValues);
+  }
 }

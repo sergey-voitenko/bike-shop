@@ -42,6 +42,7 @@
         <td class="product-quantity">
           <div class="quantity">
             <input
+              #quantityInput
               type="number"
               step="1"
               min="0"
@@ -65,7 +66,7 @@
       <tr>
         <td class="actions" colspan="6">
           <a class="back-shop" href="" [routerLink]="['/']">BACK TO SHOP</a>
-          <button class="update-cart" type="submit">update cart</button>
+          <button class="update-cart" (click)="updateOrders()">update cart</button>
         </td>
       </tr>
     </tbody>
